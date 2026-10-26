@@ -1,7 +1,13 @@
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import useBaseUrl from "@docusaurus/useBaseUrl";
-import { Action, ActivityCards } from "../components/Squadron";
+import {
+  Action,
+  ActivityCards,
+  ParadeInformation,
+  RecruitmentInformation,
+  registration,
+} from "../components/Squadron";
 
 export default function Home() {
   const crest = useBaseUrl("/img/squadron-crest.png");
@@ -27,7 +33,7 @@ export default function Home() {
                 for flight.
               </p>
               <div className="actions">
-                <Action to="/join">Learn How to Join</Action>
+                <Action to={registration}>Register Your Interest</Action>
                 <Action to="/activities" secondary>
                   Explore Activities
                 </Action>
@@ -80,9 +86,9 @@ export default function Home() {
             <p className="eyebrow">Learn by doing</p>
             <Heading as="h2">Explore the possibilities</Heading>
             <p className="section-intro">
-              Band, biathlon and marksmanship are publicly listed for 510.
-              Current activity availability should be confirmed with the
-              squadron.
+              Explore aviation, outdoor skills, marksmanship and more with 510
+              Squadron. Activities and participation opportunities vary
+              throughout the training year.
             </p>
             <ActivityCards limit={3} />
             <div className="section-action">
@@ -96,28 +102,17 @@ export default function Home() {
           <div className="join-panel">
             <div>
               <p className="eyebrow">A place to begin</p>
-              <Heading as="h2">Join 510 Squadron</Heading>
-              <p>
-                The Cadet Program is free for eligible youth aged 12–18. Learn
-                about the process and use the official registration service.
-              </p>
-              <p>
-                Contact the squadron to confirm current availability before
-                making plans to attend.
-              </p>
+              <Heading as="h2">Interested in Joining 510 Air Cadets?</Heading>
+              <RecruitmentInformation />
             </div>
-            <Action to="/join">Learn How to Join</Action>
+            <Action to={registration}>Register Your Interest</Action>
           </div>
         </section>
         <section className="section container information-grid">
           <div>
             <p className="eyebrow">Plan your first visit</p>
-            <Heading as="h2">Meet your local squadron</Heading>
-            <p>
-              Based in St. John's, Newfoundland and Labrador. Please confirm
-              meeting times, location and visitor arrangements directly with the
-              squadron before attending.
-            </p>
+            <Heading as="h2">Parade Nights</Heading>
+            <ParadeInformation />
             <Action to="/contact" secondary>
               Contact & social links
             </Action>

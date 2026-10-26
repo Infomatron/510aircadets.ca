@@ -1,0 +1,17 @@
+desktop home PASS
+desktop about PASS
+desktop join PASS
+desktop activities PASS
+desktop parents-cadets PASS
+desktop contact PASS
+mobile home PASS
+mobile about PASS
+mobile join PASS
+mobile activities PASS
+mobile parents-cadets PASS
+mobile contact PASS
+Internal links PASS 12
+Mobile navigation PASS
+Skip navigation and focus outline PASS
+320px homepage reflow PASS
+JavaScript errors: 0

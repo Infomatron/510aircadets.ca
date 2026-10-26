@@ -3,20 +3,17 @@ export default function Page() {
   return (
     <ContentPage
       title={"Activities"}
-      description={
-        "Discover local activities and broader opportunities within the Cadet Program."
-      }
+      description={"Explore the activities offered by 510 Squadron."}
     >
       <h2>Skills, challenges and shared experiences</h2>
       <p>
-        Band, biathlon and marksmanship appear in the public squadron listing.
-        Aviation, leadership and field training below describe broader program
-        opportunities; they are not a promise of current local availability.
+        From aviation and outdoor skills to music and leadership, 510 Squadron
+        offers opportunities to learn, work together and grow.
       </p>
       <ActivityCards />
       <p className="section-action">
-        Activities and participation opportunities vary.{" "}
-        <a href="/contact">Ask the squadron</a> about its current program.
+        Activities and participation opportunities vary throughout the training
+        year. <a href="/contact">Ask the squadron</a> about its current program.
       </p>
     </ContentPage>
   );

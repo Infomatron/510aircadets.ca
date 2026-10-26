@@ -1,5 +1,7 @@
 # First implementation milestone
 
+Historical record: operational facts and recruitment/activity status below are superseded by the [Milestone 2 handoff](milestone-2/handoff.md).
+
 Branch: `feat/squadron-site-design`. Production output in root `docs/` is unchanged. No merge, push or deployment performed.
 
 ## Implemented

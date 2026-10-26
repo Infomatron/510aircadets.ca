@@ -1,53 +1,43 @@
 import {
   ContentPage,
+  Action,
+  RecruitmentInformation,
   officialProgram,
   registration,
 } from "../components/Squadron";
 export default function Page() {
   return (
     <ContentPage
-      title={"Learn How to Join"}
-      description={
-        "Start with the program, confirm local availability, then use the official registration service."
-      }
+      title="Interested in Joining 510 Air Cadets?"
+      description="The squadron is currently at capacity. Prospective cadets can register their interest through the official Cadet Program registration service."
     >
-      <h2>Who is the program for?</h2>
+      <RecruitmentInformation />
+      <Action to={registration}>Register Your Interest</Action>
+      <h2>Learn about the program</h2>
       <p>
-        The Cadet Program is free for eligible youth aged 12–18. The official
-        registration service explains the requirements and information needed to
-        apply.
-      </p>
-      <h2>Your first steps</h2>
-      <ol>
-        <li>
-          Read the{" "}
-          <a href={officialProgram}>official Cadet Program information</a> with
-          your parent or guardian.
-        </li>
-        <li>
-          <a href="/contact">Contact the squadron</a> to confirm recruitment
-          availability and visiting arrangements.
-        </li>
-        <li>
-          Follow the{" "}
-          <a href={registration}>official registration process for 510</a>.
-        </li>
-      </ol>
-      <p>
-        Contact the squadron about current availability before beginning
-        registration.
+        Read the{" "}
+        <a href={officialProgram}>official Cadet Program information</a> with
+        your parent or guardian for eligibility requirements and program
+        details.
       </p>
       <h2>Before your first visit</h2>
       <p>
-        Confirm the meeting location, time and any joining instructions directly
-        with the squadron.
+        <a href="/contact">Contact the squadron</a> about visitor arrangements
+        and joining instructions before attending.
       </p>
       <h2>Frequently asked questions</h2>
       <details>
         <summary>Does this website collect registration information?</summary>
         <p>
-          No. Registration takes place through the official Cadets registration
-          service.
+          No. Registration takes place through the official Cadet Program
+          registration service.
+        </p>
+      </details>
+      <details>
+        <summary>Does submitting the form guarantee a place?</summary>
+        <p>
+          No. Registration does not guarantee immediate enrollment. Applications
+          and availability are managed by the squadron.
         </p>
       </details>
       <details>
@@ -55,13 +45,6 @@ export default function Page() {
         <p>
           Contact the squadron to ask about visiting arrangements before
           attending.
-        </p>
-      </details>
-      <details>
-        <summary>Where can I confirm eligibility?</summary>
-        <p>
-          Use the official program and registration links above for current
-          requirements.
         </p>
       </details>
     </ContentPage>

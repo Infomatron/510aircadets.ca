@@ -1,0 +1,46 @@
+[
+  {
+    "url": "https://registration.cadets.gc.ca/get-started.html?unitId=441",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "url": "https://www.google.com/maps/search/?api=1&query=196%20Pennywell%20Road%2C%20St.%20John%27s%2C%20NL%20A1C%202L6",
+    "status": 200,
+    "final_url": "https://www.google.com/maps/search/?api=1&query=196%20Pennywell%20Road%2C%20St.%20John%27s%2C%20NL%20A1C%202L6"
+  },
+  {
+    "url": "https://linktr.ee/510stjohnslionsaircadets",
+    "status": 200,
+    "final_url": "https://linktr.ee/510stjohnslionsaircadets"
+  },
+  {
+    "url": "https://www.facebook.com/510Lions/",
+    "status": 200,
+    "final_url": "https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F510Lions%2F"
+  },
+  {
+    "url": "https://www.instagram.com/510lions/",
+    "status": 200,
+    "final_url": "https://www.instagram.com/510lions/"
+  },
+  {
+    "url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cadets.html",
+    "status": 200,
+    "final_url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cadets.html"
+  },
+  {
+    "url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cjcr-policy/cjcr-dress-instructions/chapter-3/annex-b.html",
+    "status": 200,
+    "final_url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cjcr-policy/cjcr-dress-instructions/chapter-3/annex-b.html"
+  },
+  {
+    "url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cjcr-policy/cjcr-dress-instructions/chapter-3/annex-h.html",
+    "status": 200,
+    "final_url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cjcr-policy/cjcr-dress-instructions/chapter-3/annex-h.html"
+  },
+  {
+    "url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cadets/resources-for-cadets.html",
+    "status": 200,
+    "final_url": "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cadets/resources-for-cadets.html"
+  }
+]

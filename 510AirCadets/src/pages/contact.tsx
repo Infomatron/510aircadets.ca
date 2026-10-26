@@ -1,4 +1,9 @@
-import { ContentPage, registration } from "../components/Squadron";
+import {
+  ContentPage,
+  ParadeInformation,
+  Action,
+  registration,
+} from "../components/Squadron";
 export default function Page() {
   return (
     <ContentPage
@@ -27,18 +32,20 @@ export default function Page() {
           </a>
         </li>
       </ul>
-      <h2>Planning to visit?</h2>
+      <h2>Parade Nights</h2>
+      <ParadeInformation />
       <p>
-        The squadron is based in St. John's, Newfoundland and Labrador. Confirm
-        the current meeting location, parade times and visitor arrangements
-        directly before attending.
+        Please contact the squadron about visitor arrangements before attending
+        for the first time.
       </p>
-      <h2>Registration questions</h2>
+      <h2>Interested in joining?</h2>
       <p>
-        Contact the squadron to confirm availability. Use the{" "}
-        <a href={registration}>official registration service</a> for the
-        registration process.
+        The squadron is currently at capacity. Prospective cadets can register
+        their interest through the official registration service. Registration
+        does not guarantee immediate enrollment. Applications and availability
+        are managed by the squadron.
       </p>
+      <Action to={registration}>Register Your Interest</Action>
     </ContentPage>
   );
 }

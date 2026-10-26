@@ -1,30 +1,345 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
-
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --squadron-blue: #214867;
+  --squadron-yellow: #f9bd11;
+  --squadron-yellow-secondary: #fec010;
+  --squadron-ink: #17364e;
+  --squadron-muted: #476074;
+  --squadron-surface: #f1f5f8;
+  --ifm-color-primary: #214867;
+  --ifm-color-primary-dark: #1e415d;
+  --ifm-color-primary-darker: #1c3d58;
+  --ifm-color-primary-darkest: #173248;
+  --ifm-color-primary-light: #244f71;
+  --ifm-color-primary-lighter: #265377;
+  --ifm-color-primary-lightest: #2b5e86;
+  --ifm-font-family-base:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ifm-heading-color: var(--squadron-ink);
+  --ifm-font-color-base: var(--squadron-ink);
+  --ifm-line-height-base: 1.7;
+  --ifm-navbar-height: 5rem;
+  --ifm-container-width-xl: 1180px;
+  --ifm-footer-background-color: #17364e;
+  --ifm-link-decoration: underline;
+}
+html {
+  scroll-padding-top: 6rem;
+}
+body {
+  background: #fff;
+}
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+h3 {
+  font-size: 1.3rem;
+}
+a {
+  text-underline-offset: 0.18em;
+}
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #214867;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 7px white;
+}
+.navbar {
+  box-shadow: 0 1px 0 #d9e2e9;
+}
+.navbar__logo img {
+  object-fit: contain;
+}
+.navbar__link {
+  font-size: 0.92rem;
+}
+.navbar__link,
+.footer__link-item {
+  text-decoration: none;
+}
+.nav-join,
+.squadron-action {
+  background: var(--squadron-yellow);
+  color: var(--squadron-blue);
+  font-weight: 750;
+  border-radius: 0.35rem;
+  padding: 0.7rem 1.15rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  line-height: 1.4;
+  border: 2px solid transparent;
+}
+.nav-join:hover,
+.squadron-action:hover {
+  background: #ffce45;
+  color: var(--squadron-blue);
+  text-decoration: underline;
+}
+.squadron-action--secondary {
+  background: transparent;
+  border-color: var(--squadron-blue);
+}
+.squadron-action--secondary:hover {
+  background: #e7eef3;
+}
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.home-hero {
+  background: var(--squadron-blue);
+  color: white;
+  padding: 5.5rem 0;
+  border-bottom: 7px solid var(--squadron-yellow);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: center;
+  gap: 4rem;
+}
+.home-hero h1 {
+  color: white;
+  font-size: clamp(2.6rem, 5.7vw, 4.7rem);
+  margin-bottom: 1.5rem;
+}
+.home-hero .eyebrow {
+  color: var(--squadron-yellow);
+}
+.hero-identity {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.hero-copy {
+  max-width: 37rem;
+  color: #e5edf4;
+  font-size: 1.12rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.home-hero .squadron-action--secondary {
+  border-color: white;
+  color: white;
+}
+.home-hero .squadron-action--secondary:hover {
+  background: #17364e;
+}
+.hero-emblem {
+  text-align: center;
+  padding: 2rem;
+  border: 1px solid #7190a7;
+  border-radius: 0.6rem;
+}
+.hero-emblem img {
+  object-fit: contain;
+  max-width: 100%;
+  height: auto;
+}
+.hero-emblem p {
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  margin: 1.5rem 0 0.3rem;
+}
+.hero-emblem span {
+  font-size: 0.9rem;
+  color: #e5edf4;
+}
+.section {
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
+}
+.section-intro {
+  max-width: 46rem;
+  color: var(--squadron-muted);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+.section-tinted {
+  background: var(--squadron-surface);
+}
+.benefit-grid,
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.benefit-grid {
+  margin-top: 2.5rem;
+  gap: 2.5rem;
+}
+.benefit-grid > div {
+  border-top: 4px solid var(--squadron-yellow);
+  padding-top: 1.5rem;
+}
+.activity-card {
+  border: 1px solid #d3dfe7;
+  border-radius: 0.5rem;
+  padding: 1.75rem;
+  background: white;
+}
+.activity-card p:last-child {
+  margin-bottom: 0;
+}
+.card-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--squadron-muted);
+  margin-bottom: 1rem;
+}
+.section-action {
+  margin-top: 2rem;
+}
+.join-panel {
+  background: var(--squadron-surface);
+  border-left: 6px solid var(--squadron-yellow);
+  padding: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+.join-panel > div {
+  flex: 1;
+}
+.join-panel > .squadron-action {
+  flex-shrink: 0;
+}
+.information-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  padding-top: 0;
+}
+.resource-panel {
+  border-top: 1px solid #d3dfe7;
+  padding-top: 2rem;
+}
+.content-page {
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+  max-width: 1050px;
+}
+.content-page h1 {
+  font-size: clamp(2.5rem, 5vw, 3.7rem);
+}
+.page-intro {
+  font-size: 1.25rem;
+  max-width: 45rem;
+  color: var(--squadron-muted);
+  margin: 1.5rem 0 3rem;
+}
+.prose h2 {
+  font-size: 1.7rem;
+  margin-top: 2.5rem;
+}
+.prose > p,
+.prose > ol,
+.prose > ul {
+  max-width: 48rem;
+}
+.prose .card-grid {
+  margin-top: 2rem;
+}
+details {
+  border-bottom: 1px solid #d3dfe7;
+  padding: 1rem 0;
+  max-width: 48rem;
+}
+summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.5rem 0;
+  min-height: 44px;
+}
+details p {
+  padding-top: 1rem;
+}
+.footer {
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+}
+.footer__copyright {
+  font-size: 0.85rem;
+  border-top: 1px solid #7190a7;
+  padding-top: 1.5rem;
+  margin-top: 2rem;
+}
+@media (max-width: 996px) {
+  .hero-grid {
+    gap: 2rem;
+    grid-template-columns: 1.5fr 1fr;
+  }
+  .hero-emblem {
+    padding: 1rem;
+  }
+  .hero-emblem img {
+    width: 160px;
+  }
+  .join-panel {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .home-hero {
+    padding: 3rem 0;
+  }
+  .hero-grid,
+  .benefit-grid,
+  .card-grid,
+  .information-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-emblem {
+    display: none;
+  }
+  .section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .information-grid {
+    gap: 2.5rem;
+    padding-top: 0;
+  }
+  .join-panel {
+    padding: 1.5rem;
+  }
+  .content-page {
+    padding-top: 2.5rem;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-}
+.navbar__brand { text-decoration: none; }
+.footer--dark { --ifm-footer-background-color: #17364e; }

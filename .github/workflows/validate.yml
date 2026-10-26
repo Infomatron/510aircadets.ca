@@ -1,0 +1,45 @@
+name: Validate website
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Website validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: 510AirCadets
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: 510AirCadets/.node-version
+          package-manager-cache: false
+      - name: Install pinned pnpm
+        run: npm install --global pnpm@11.25.0
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Check TypeScript
+        run: pnpm run typecheck
+      - name: Build production site
+        run: pnpm run build
+      - name: Verify domain and public routes
+        run: |
+          test "$(cat build/CNAME)" = "510aircadets.ca"
+          for route in index.html about/index.html join/index.html activities/index.html parents-cadets/index.html contact/index.html; do
+            test -s "build/$route"
+          done

@@ -1,43 +1,41 @@
-# Website
+# 510 St. John's Lions Air Cadets website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+Independent public information website maintained by a parent volunteer. Built with Docusaurus Classic, React and TypeScript.
 
-## Installation
+## Local development
 
-```bash
-npm install
+Use Node.js 24.22.1 (`.node-version`) and pnpm 11.25.0 (`package.json` packageManager). Run commands from `510AirCadets/`:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
-**Note**: feel free to use the package manager of your choice.
+## Verification and local preview
 
-## Local Development
-
-```bash
-npm run start
+```sh
+pnpm run typecheck
+pnpm run build
+pnpm run serve
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Build output goes to `510AirCadets/build/`. There are currently no lint or test scripts. Review all six routes, mobile navigation, keyboard focus, skip navigation, zoom/reflow and contrast before release.
 
-## Build
+## Content and design
 
-```bash
-npm run build
-```
+- Pages: `src/pages/`.
+- Shared content layout, actions and activity cards: `src/components/Squadron/index.tsx`.
+- Navigation, footer and metadata: `docusaurus.config.ts`.
+- Design tokens and responsive styling: `src/css/custom.css`.
+- Temporary authorized crest: `static/img/squadron-crest.png`. Replace this file with higher-resolution approved artwork, preserving the original proportions and design.
+- The favicon is a text-based `510` identifier; the crest has too much detail for a small icon.
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+Use official external services for registration. Do not add forms collecting minors' information. Use only permission-cleared imagery. Refer to `../review/milestone-2/handoff.md` for confirmed content and remaining review gaps.
 
-## Deployment
+## Publishing preparation
 
-Using SSH:
+The operator confirmed current Pages publishing from `main` / root `docs/`. That production output is retained until the first approved Actions deployment is verified. Source `static/CNAME` now preserves the domain in build output; the Pages custom-domain setting remains authoritative for Actions.
 
-```bash
-USE_SSH=true npm run deploy
-```
+The prepared workflows validate PRs and automatically deploy main after merge. The owner must first activate branch protection and configure Pages and the environment. See [milestone 3 handoff](../review/milestone-3/handoff.md) for the exact sequence, required status check, domain/HTTPS preservation and rollback. Do not use the Docusaurus `deploy` command or manually copy builds into `docs/` for the selected Actions process.
 
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> npm run deploy
-```
-
-If you are using GitHub Pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+No push, merge, Pages setting change or deployment is authorized during preparation.

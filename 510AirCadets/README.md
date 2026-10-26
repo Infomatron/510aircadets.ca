@@ -4,7 +4,7 @@ Independent public information website maintained by a parent volunteer. Built w
 
 ## Local development
 
-Use Node.js 20 or later and pnpm. Run commands from `510AirCadets/`:
+Use Node.js 24.22.1 (`.node-version`) and pnpm 11.25.0 (`package.json` packageManager). Run commands from `510AirCadets/`:
 
 ```sh
 pnpm install --frozen-lockfile
@@ -30,12 +30,12 @@ Build output goes to `510AirCadets/build/`. There are currently no lint or test 
 - Temporary authorized crest: `static/img/squadron-crest.png`. Replace this file with higher-resolution approved artwork, preserving the original proportions and design.
 - The favicon is a text-based `510` identifier; the crest has too much detail for a small icon.
 
-Use official external services for registration. Do not add forms collecting minors' information. Use only permission-cleared imagery. Refer to `../review/implementation-notes.md` for provisional content and review gaps.
+Use official external services for registration. Do not add forms collecting minors' information. Use only permission-cleared imagery. Refer to `../review/milestone-2/handoff.md` for confirmed content and remaining review gaps.
 
-## Deployment boundary
+## Publishing preparation
 
-Root-level `../docs/` contains the currently committed production output and `CNAME`. It has intentionally not been regenerated during this milestone. No deployment workflow was added.
+The operator confirmed current Pages publishing from `main` / root `docs/`. That production output is retained until the first approved Actions deployment is verified. Source `static/CNAME` now preserves the domain in build output; the Pages custom-domain setting remains authoritative for Actions.
 
-The actual GitHub Pages source setting could not be verified through the unauthenticated API. Confirm the publishing branch and directory in GitHub Settings → Pages before altering deployment files. Keep the existing `docs/CNAME` (`510aircadets.ca`) intact. Once the source is confirmed, add `CNAME` to `static/` so builds copy it automatically before establishing a release procedure. Do not use the Docusaurus `deploy` command: its default branch-based publishing behaviour has not been configured for this repository.
+The prepared workflows validate PRs and automatically deploy main after merge. The owner must first activate branch protection and configure Pages and the environment. See [milestone 3 handoff](../review/milestone-3/handoff.md) for the exact sequence, required status check, domain/HTTPS preservation and rollback. Do not use the Docusaurus `deploy` command or manually copy builds into `docs/` for the selected Actions process.
 
-Do not merge or deploy without the operator's explicit approval.
+No push, merge, Pages setting change or deployment is authorized during preparation.

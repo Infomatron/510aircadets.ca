@@ -1,0 +1,48 @@
+desktop { overflow: false, h1: 1, main: 1 }
+tablet { overflow: false, h1: 1, main: 1 }
+mobile { overflow: false, h1: 1, main: 1 }
+mobile menu true
+about 200 About 510
+join 200 Learn How to Join
+activities 200 Activities
+parents-cadets 200 Parents & Cadets
+contact 200 Contact
+first keyboard focus Skip to main content
+skip target <body style="overflow: visible;">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 1
+next focus after skip Learn How to Join
+focus outline rgb(33, 72, 103) solid 3px
+/ {
+  canonical: 'https://510aircadets.ca/',
+  imagesWithoutAlt: 0,
+  forms: 0
+}
+about/ {
+  canonical: 'https://510aircadets.ca/about/',
+  imagesWithoutAlt: 0,
+  forms: 0
+}
+join/ {
+  canonical: 'https://510aircadets.ca/join/',
+  imagesWithoutAlt: 0,
+  forms: 0
+}
+activities/ {
+  canonical: 'https://510aircadets.ca/activities/',
+  imagesWithoutAlt: 0,
+  forms: 0
+}
+parents-cadets/ {
+  canonical: 'https://510aircadets.ca/parents-cadets/',
+  imagesWithoutAlt: 0,
+  forms: 0
+}
+contact/ {
+  canonical: 'https://510aircadets.ca/contact/',
+  imagesWithoutAlt: 0,
+  forms: 0
+}
+links 42 broken []
+320px reflow true
+runtime errors []

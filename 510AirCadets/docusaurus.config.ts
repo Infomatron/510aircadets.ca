@@ -1,150 +1,88 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  favicon: 'img/favicon.ico',
-
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
-  future: {
-    v4: true, // Improve compatibility with the upcoming Docusaurus v4
-  },
-
-  // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
-
-  onBrokenLinks: 'throw',
-
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
-  },
-
+  title: "510 Air Cadets | St. John's Lions",
+  tagline: "New experiences. Lasting friendships. Room to grow.",
+  url: "https://510aircadets.ca",
+  baseUrl: "/",
+  favicon: "img/favicon.svg",
+  organizationName: "Infomatron",
+  projectName: "510aircadets.ca",
+  onBrokenLinks: "throw",
+  i18n: { defaultLocale: "en", locales: ["en"] },
   presets: [
     [
-      'classic',
+      "classic",
       {
-        docs: {
-          sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
-        theme: {
-          customCss: './src/css/custom.css',
-        },
+        docs: false,
+        blog: false,
+        theme: { customCss: "./src/css/custom.css" },
       } satisfies Preset.Options,
     ],
   ],
-
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: "light",
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'My Site',
-      logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
-      },
+      title: "510 Air Cadets",
+      logo: { alt: "", src: "img/squadron-crest.png", width: 40, height: 40 },
       items: [
+        { to: "/", label: "Home", position: "left", activeBaseRegex: "^/$" },
+        { to: "/about", label: "About", position: "left" },
+        { to: "/activities", label: "Activities", position: "left" },
+        { to: "/parents-cadets", label: "Parents & Cadets", position: "left" },
+        { to: "/contact", label: "Contact", position: "left" },
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Tutorial',
-        },
-        {to: '/blog', label: 'Blog', position: 'left'},
-        {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
-          position: 'right',
+          to: "/join",
+          label: "Learn How to Join",
+          position: "right",
+          className: "nav-join",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "510 St. John's Lions",
           items: [
+            { label: "About this website", to: "/about" },
+            { label: "Parents & Cadets", to: "/parents-cadets" },
+            { label: "Contact", to: "/contact" },
+          ],
+        },
+        {
+          title: "Stay connected",
+          items: [
+            { label: "Facebook", href: "https://www.facebook.com/510Lions/" },
+            { label: "Instagram", href: "https://www.instagram.com/510lions/" },
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: "Squadron Linktree",
+              href: "https://linktr.ee/510stjohnslionsaircadets",
             },
           ],
         },
         {
-          title: 'Community',
+          title: "Official program information",
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: "Cadets Canada",
+              href: "https://www.canada.ca/en/department-national-defence/services/cadets-junior-canadian-rangers/cadets.html",
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: "Registration service",
+              href: "https://registration.cadets.gc.ca/get-started.html?unitId=441",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-    },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      copyright:
+        "Independently maintained by a parent volunteer. Not an official DND, CAF or Government of Canada website.",
     },
   } satisfies Preset.ThemeConfig,
 };
-
 export default config;

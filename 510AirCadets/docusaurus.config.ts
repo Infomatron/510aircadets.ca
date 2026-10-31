@@ -10,7 +10,9 @@ const config: Config = {
   organizationName: "Infomatron",
   projectName: "510aircadets.ca",
   onBrokenLinks: "throw",
+  onBrokenAnchors: "throw",
   i18n: { defaultLocale: "en", locales: ["en"] },
+  plugins: ["./plugins/squadron-content/index.cjs"],
   presets: [
     [
       "classic",
@@ -35,6 +37,8 @@ const config: Config = {
         { to: "/about", label: "About", position: "left" },
         { to: "/join", label: "Join", position: "left" },
         { to: "/activities", label: "Activities", position: "left" },
+        { to: "/events", label: "Events", position: "left" },
+        { to: "/announcements", label: "Announcements", position: "left" },
         { to: "/parents-cadets", label: "Parents & Cadets", position: "left" },
         { to: "/contact", label: "Contact", position: "left" },
         {

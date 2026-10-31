@@ -1,0 +1,8 @@
+{
+  "id": "announcement-example",
+  "title": "Fictional announcement — replace before submitting",
+  "publicationDate": "2027-01-12",
+  "message": "Replace with approved public information.",
+  "expiryDate": "2027-01-19",
+  "category": "reminder"
+}

@@ -36,6 +36,11 @@ export default function Page() {
         that apply to your cadet. Follow official sources for dress guidance,
         training material and program policies.
       </p>
+      <h2>Public events and announcements</h2>
+      <p>
+        Browse <a href="/events">public events</a> and{" "}
+        <a href="/announcements">announcements</a> for approved public updates.
+      </p>
       <h2>Meeting updates and joining instructions</h2>
       <p>
         Confirm schedules, required equipment and joining instructions through

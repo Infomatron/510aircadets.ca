@@ -1,0 +1,10 @@
+{
+  "id": "event-example",
+  "title": "Fictional example — replace before submitting",
+  "date": "2027-01-19",
+  "startTime": "18:30",
+  "endTime": "20:00",
+  "location": "Replace with an approved public location",
+  "description": "Replace with approved public information.",
+  "status": "scheduled"
+}

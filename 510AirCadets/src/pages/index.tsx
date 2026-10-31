@@ -1,3 +1,4 @@
+import { HomeUpdates } from "../components/Updates";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -108,6 +109,7 @@ export default function Home() {
             <Action to={registration}>Register Your Interest</Action>
           </div>
         </section>
+        <HomeUpdates />
         <section className="section container information-grid">
           <div>
             <p className="eyebrow">Plan your first visit</p>

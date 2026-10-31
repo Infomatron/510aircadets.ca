@@ -341,5 +341,81 @@ details p {
   }
 }
 
-.navbar__brand { text-decoration: none; }
-.footer--dark { --ifm-footer-background-color: #17364e; }
+.navbar__brand {
+  text-decoration: none;
+}
+.footer--dark {
+  --ifm-footer-background-color: #17364e;
+}
+
+/* Public updates reuse the squadron palette and visible focus treatment. */
+.updates-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+.updates-list > li {
+  margin-bottom: 1rem;
+}
+.update-card {
+  border: 1px solid #c4d2dd;
+  border-left: 5px solid #214867;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  overflow-wrap: anywhere;
+  scroll-margin-top: 6rem;
+}
+.prose .update-card h2,
+.update-card h2,
+.update-card h3,
+.update-card h4 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+.update-card p:last-child {
+  margin-bottom: 0;
+}
+.update-card--cancelled,
+.update-card--cancellation {
+  border-left-style: double;
+  border-left-width: 8px;
+}
+.update-card--updated,
+.update-card--schedule-change {
+  border-left-width: 8px;
+}
+.update-label {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.update-meta,
+.updates-note {
+  font-size: 0.9rem;
+}
+.update-message {
+  white-space: pre-line;
+}
+.updates-empty {
+  padding: 1rem;
+  background: #f0f5f8;
+  border-radius: 0.5rem;
+}
+.updates-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+@media (max-width: 1200px) and (min-width: 997px) {
+  .navbar__title {
+    display: none;
+  }
+  .navbar__item {
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+  }
+}
+@media (max-width: 760px) {
+  .updates-columns {
+    grid-template-columns: 1fr;
+  }
+}

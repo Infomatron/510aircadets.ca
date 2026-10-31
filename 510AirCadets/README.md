@@ -39,3 +39,7 @@ The operator confirmed current Pages publishing from `main` / root `docs/`. That
 The prepared workflows validate PRs and automatically deploy main after merge. The owner must first activate branch protection and configure Pages and the environment. See [milestone 3 handoff](../review/milestone-3/handoff.md) for the exact sequence, required status check, domain/HTTPS preservation and rollback. Do not use the Docusaurus `deploy` command or manually copy builds into `docs/` for the selected Actions process.
 
 No push, merge, Pages setting change or deployment is authorized during preparation.
+
+## Public events and announcements
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for content file locations, schemas, templates, date rules and the GitHub editing workflow.

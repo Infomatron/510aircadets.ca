@@ -28,3 +28,7 @@ Every change belongs on a separate branch and PR targeting `main`. The prepared 
 After the approved migration, merging an approved PR automatically builds and deploys the source using GitHub Pages Actions. No separate deployment approval is required. The current live site still publishes committed root `docs/` until the owner changes Pages settings; retain that directory until the replacement is verified.
 
 See [milestone 3 handoff](review/milestone-3/handoff.md) for exact protection, migration, custom-domain preservation, validation limits and rollback instructions. Nothing in that document authorizes pushing, merging or changing hosting settings.
+
+## Public events and announcements
+
+See [the cadet contribution guide](510AirCadets/CONTRIBUTING.md) for fork-based GitHub editing, templates and public-release rules.

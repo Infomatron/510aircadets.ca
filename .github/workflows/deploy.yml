@@ -35,6 +35,10 @@ jobs:
         run: npm install --global pnpm@11.25.0
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Validate public content
+        run: pnpm run validate:content
+      - name: Test content rules
+        run: pnpm test
       - name: Check TypeScript
         run: pnpm run typecheck
       - name: Build production site
@@ -42,7 +46,7 @@ jobs:
       - name: Verify domain and public routes
         run: |
           test "$(cat build/CNAME)" = "510aircadets.ca"
-          for route in index.html about/index.html join/index.html activities/index.html parents-cadets/index.html contact/index.html; do
+          for route in index.html about/index.html join/index.html activities/index.html parents-cadets/index.html contact/index.html events/index.html announcements/index.html announcements/archive/index.html; do
             test -s "build/$route"
           done
       - name: Upload Pages artifact

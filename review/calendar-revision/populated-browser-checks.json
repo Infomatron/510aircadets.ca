@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "calendar": true,
+      "navigation": true,
+      "keyboard": true,
+      "relatedEvent": true,
+      "compatibility": true
+    },
+    {
+      "width": 1100,
+      "calendar": true,
+      "navigation": true,
+      "keyboard": true,
+      "relatedEvent": true,
+      "compatibility": true
+    },
+    {
+      "width": 1024,
+      "calendar": true,
+      "navigation": true,
+      "keyboard": true,
+      "relatedEvent": true,
+      "compatibility": true
+    },
+    {
+      "width": 768,
+      "calendar": true,
+      "navigation": true,
+      "keyboard": true,
+      "relatedEvent": true,
+      "compatibility": true
+    },
+    {
+      "width": 390,
+      "calendar": true,
+      "navigation": true,
+      "keyboard": true,
+      "relatedEvent": true,
+      "compatibility": true
+    },
+    {
+      "width": 320,
+      "calendar": true,
+      "navigation": true,
+      "keyboard": true,
+      "relatedEvent": true,
+      "compatibility": true
+    }
+  ],
+  "errors": [],
+  "noJavaScript": "passed"
+}

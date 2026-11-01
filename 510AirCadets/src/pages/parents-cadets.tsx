@@ -38,8 +38,8 @@ export default function Page() {
       </p>
       <h2>Public events and announcements</h2>
       <p>
-        Browse <a href="/events">public events</a> and{" "}
-        <a href="/announcements">announcements</a> for approved public updates.
+        Browse <a href="/calendar">Calendar &amp; Announcements</a> for approved
+        public updates.
       </p>
       <h2>Meeting updates and joining instructions</h2>
       <p>

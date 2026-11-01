@@ -29,6 +29,6 @@ After the approved migration, merging an approved PR automatically builds and de
 
 See [milestone 3 handoff](review/milestone-3/handoff.md) for exact protection, migration, custom-domain preservation, validation limits and rollback instructions. Nothing in that document authorizes pushing, merging or changing hosting settings.
 
-## Public events and announcements
+## Calendar & Announcements
 
 See [the cadet contribution guide](510AirCadets/CONTRIBUTING.md) for fork-based GitHub editing, templates and public-release rules.

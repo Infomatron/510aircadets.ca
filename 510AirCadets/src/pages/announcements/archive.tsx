@@ -1,12 +1,4 @@
-import { ContentPage } from "../../components/Squadron";
-import { AnnouncementsContent } from "../../components/Updates";
+import { CompatibilityRoute } from "../../components/Updates";
 export default function Archive() {
-  return (
-    <ContentPage
-      title="Announcement archive"
-      description="Past public announcements for reference."
-    >
-      <AnnouncementsContent archive />
-    </ContentPage>
-  );
+  return <CompatibilityRoute target="/calendar/archive" />;
 }

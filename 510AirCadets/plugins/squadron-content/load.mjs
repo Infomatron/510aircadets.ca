@@ -1,6 +1,6 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { validateRecords, localInstant } from "./model.mjs";
+import { validateRecords } from "./model.mjs";
 export async function loadContent(root, now = Date.now()) {
   const records = [],
     errors = [];
@@ -31,13 +31,7 @@ export async function loadContent(root, now = Date.now()) {
     throw new Error(`Content validation failed:\n${errors.join("\n")}`);
   return {
     builtAt: now,
-    events: records
-      .filter((r) => r.kind === "events")
-      .map(({ data: e }) => ({
-        ...e,
-        startsAt: localInstant(e.date, e.startTime),
-        ...(e.endTime ? { endsAt: localInstant(e.date, e.endTime) } : {}),
-      })),
+    events: records.filter((r) => r.kind === "events").map((r) => r.data),
     announcements: records
       .filter((r) => r.kind === "announcements")
       .map((r) => r.data),

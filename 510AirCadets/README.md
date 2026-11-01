@@ -40,6 +40,6 @@ The prepared workflows validate PRs and automatically deploy main after merge. T
 
 No push, merge, Pages setting change or deployment is authorized during preparation.
 
-## Public events and announcements
+## Calendar & Announcements
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for content file locations, schemas, templates, date rules and the GitHub editing workflow.

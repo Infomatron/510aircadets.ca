@@ -6,18 +6,19 @@ import path from "node:path";
 import {
   validateRecords,
   validDate,
-  validTime,
-  localInstant,
   localParts,
   classify,
   previews,
+  shiftMonth,
+  monthCells,
+  moveDate,
+  eventsOnDate,
 } from "../plugins/squadron-content/model.mjs";
 import { loadContent } from "../plugins/squadron-content/load.mjs";
 const event = (extra = {}) => ({
   id: "event-test",
   title: "Fictional fixture",
   date: "2027-01-19",
-  startTime: "18:30",
   status: "scheduled",
   ...extra,
 });
@@ -33,45 +34,53 @@ const record = (kind, data, file = `content/${kind}/${data.id}.json`) => ({
   data,
   file,
 });
-const normalized = (e) => ({
-  ...e,
-  startsAt: localInstant(e.date, e.startTime),
-  ...(e.endTime ? { endsAt: localInstant(e.date, e.endTime) } : {}),
-});
-const at = (date, time) => localInstant(date, time);
+const now = Date.parse("2027-01-19T15:00:00Z");
 
-test("valid fields, references and length boundaries", () => {
-  const e = event({ title: "x".repeat(120), description: "x".repeat(1000) });
+test("valid revised schema, references and text limits", () =>
   assert.deepEqual(
     validateRecords([
-      record("events", e),
-      record("announcements", announcement({ relatedEvent: e.id })),
+      record(
+        "events",
+        event({ title: "x".repeat(120), description: "x".repeat(1000) }),
+      ),
+      record("announcements", announcement({ relatedEvent: "event-test" })),
     ]),
     [],
-  );
-});
+  ));
+for (const field of ["startTime", "endTime", "location", "duration"])
+  test(`removed event field ${field} is rejected`, () =>
+    assert.match(
+      validateRecords([
+        record("events", event({ [field]: "not allowed" })),
+      ]).join("\n"),
+      new RegExp(`${field}: unsupported field`),
+    ));
 for (const [field, value, match] of [
   ["title", "", /non-empty/],
   ["title", "x".repeat(121), /120/],
   ["date", "2027-02-30", /real date/],
-  ["startTime", "25:00", /HH:mm/],
   ["status", "pending", /scheduled/],
   ["description", "<script>alert(1)</script>", /HTML/],
   ["unknown", "value", /unsupported/],
   ["id", "Not valid", /lowercase/],
 ])
-  test(`reject event ${field}`, () =>
+  test(`reject invalid ${field}`, () =>
     assert.match(
       validateRecords([record("events", event({ [field]: value }))]).join("\n"),
       match,
     ));
-test("required fields and non-object records fail helpfully", () => {
-  const e = event();
-  delete e.title;
-  assert.match(
-    validateRecords([record("events", e)]).join("\n"),
-    /title: required/,
-  );
+test("missing required fields and non-objects fail by file and field", () => {
+  for (const kind of ["events", "announcements"])
+    for (const field of kind === "events"
+      ? ["id", "title", "date", "status"]
+      : ["id", "title", "publicationDate", "message"]) {
+      const d = kind === "events" ? event() : announcement();
+      delete d[field];
+      assert.match(
+        validateRecords([record(kind, d, "fixture.json")]).join("\n"),
+        new RegExp(`fixture.json: ${field}: required`),
+      );
+    }
   assert.match(
     validateRecords([{ kind: "events", file: "bad.json", data: [] }]).join(
       "\n",
@@ -79,7 +88,7 @@ test("required fields and non-object records fail helpfully", () => {
     /bad.json.*JSON object/,
   );
 });
-test("filenames, duplicate identifiers and update dates", () => {
+test("stable filenames, duplicates and conditional update dates", () => {
   assert.match(
     validateRecords([record("events", event(), "wrong.json")]).join("\n"),
     /filename/,
@@ -91,24 +100,61 @@ test("filenames, duplicate identifiers and update dates", () => {
     ]).join("\n"),
     /duplicate/,
   );
-  for (const status of ["updated", "cancelled"])
+  for (const status of ["updated", "cancelled"]) {
     assert.match(
       validateRecords([record("events", event({ status }))]).join("\n"),
       /updatedDate: required/,
     );
+    assert.deepEqual(
+      validateRecords([
+        record("events", event({ status, updatedDate: "2027-01-18" })),
+      ]),
+      [],
+    );
+  }
 });
-test("time formats, real leap dates, same-day bounds", () => {
+test("real dates and leap years", () => {
   assert.equal(validDate("2028-02-29"), true);
   assert.equal(validDate("2027-02-29"), false);
   assert.equal(validDate("2027-1-02"), false);
-  assert.equal(validTime("9:30"), false);
-  for (const endTime of ["18:30", "17:00"])
-    assert.match(
-      validateRecords([record("events", event({ endTime }))]).join("\n"),
-      /later than/,
-    );
+  assert.equal(validDate("2100-01-01"), false);
+  assert.equal(monthCells(2028, 1).filter(Boolean).length, 29);
+  assert.equal(monthCells(2027, 1).filter(Boolean).length, 28);
 });
-test("announcement types, category, ordering and references", () => {
+test("month grid has seven columns with correct blank cells", () => {
+  const cells = monthCells(2027, 0);
+  assert.equal(cells.length % 7, 0);
+  assert.equal(cells[0], null);
+  assert.equal(cells[5], "2027-01-01");
+  assert.equal(cells.filter(Boolean).length, 31);
+});
+test("previous/next month and direct year boundaries", () => {
+  assert.deepEqual(shiftMonth(2027, 11, 1), { year: 2028, month: 0 });
+  assert.deepEqual(shiftMonth(2027, 0, -1), { year: 2026, month: 11 });
+  assert.deepEqual(shiftMonth(2000, 0, -1), { year: 2000, month: 0 });
+  assert.deepEqual(shiftMonth(2099, 11, 1), { year: 2099, month: 11 });
+  assert.equal(monthCells(2032, 1).filter(Boolean).length, 29);
+});
+test("keyboard date movement crosses months, leap days and years", () => {
+  assert.equal(moveDate("2028-02-28", 1), "2028-02-29");
+  assert.equal(moveDate("2028-02-29", 1), "2028-03-01");
+  assert.equal(moveDate("2027-12-31", 1), "2028-01-01");
+  assert.equal(moveDate("2027-01-01", -7), "2026-12-25");
+  assert.equal(moveDate("2000-01-01", -1), "2000-01-01");
+  assert.equal(moveDate("2099-12-31", 1), "2099-12-31");
+});
+test("date selection returns multiple entries with all statuses and no unrelated entries", () => {
+  const entries = ["scheduled", "updated", "cancelled"].map((status) =>
+    event({ id: `event-${status}`, status }),
+  );
+  entries.push(event({ id: "event-other", date: "2027-01-20" }));
+  assert.deepEqual(
+    eventsOnDate(entries, "2027-01-19").map((e) => e.status),
+    ["cancelled", "scheduled", "updated"],
+  );
+  assert.deepEqual(eventsOnDate(entries, "2027-02-01"), []);
+});
+test("announcements validate categories, date order and references", () => {
   for (const extra of [
     { category: "urgent" },
     { expiryDate: "2027-01-18" },
@@ -121,25 +167,7 @@ test("announcement types, category, ordering and references", () => {
       validateRecords([record("announcements", announcement(extra))]).length,
     );
 });
-test("Newfoundland half-hour offsets and DST invalid/ambiguous times", () => {
-  assert.equal(
-    new Date(at("2027-01-19", "18:30")).toISOString(),
-    "2027-01-19T22:00:00.000Z",
-  );
-  assert.equal(
-    new Date(at("2027-07-19", "18:30")).toISOString(),
-    "2027-07-19T21:00:00.000Z",
-  );
-  assert.throws(() => at("2027-03-14", "02:30"), /daylight-saving/);
-  assert.throws(() => at("2027-11-07", "01:30"), /daylight-saving/);
-  assert.match(
-    validateRecords([
-      record("events", event({ date: "2027-03-14", startTime: "02:30" })),
-    ]).join("\n"),
-    /startTime.*daylight-saving/,
-  );
-});
-test("expiry is inclusive, future publications hidden and archive retained", () => {
+test("expiry inclusive at Newfoundland midnight and future publication hidden", () => {
   const c = {
     events: [],
     announcements: [
@@ -150,33 +178,52 @@ test("expiry is inclusive, future publications hidden and archive retained", () 
       }),
     ],
   };
-  assert.equal(classify(c, at("2027-01-19", "23:59")).active.length, 1);
-  const next = classify(c, at("2027-01-20", "00:00"));
+  assert.equal(
+    classify(c, Date.parse("2027-01-20T03:29:59Z")).active.length,
+    1,
+  );
+  const next = classify(c, Date.parse("2027-01-20T03:30:00Z"));
   assert.deepEqual(
     next.active.map((x) => x.id),
     ["announcement-future"],
   );
   assert.equal(next.archive.length, 1);
 });
-test("events expire at end time or following local midnight, including cancellations", () => {
-  for (const status of ["scheduled", "updated", "cancelled"]) {
-    const c = {
-      events: [
-        normalized(event({ status, endTime: "20:00" })),
-        normalized(event({ id: "event-no-end", status })),
-      ],
-      announcements: [],
-    };
-    assert.equal(classify(c, at("2027-01-19", "19:59")).events.length, 2);
-    assert.equal(classify(c, at("2027-01-19", "20:00")).events.length, 1);
-    assert.equal(classify(c, at("2027-01-20", "00:00")).events.length, 0);
-    assert.equal(c.events.length, 2);
-  }
+test("local dates follow Newfoundland DST offsets without event clocks", () => {
+  assert.equal(
+    localParts(Date.parse("2027-01-20T03:29:00Z")).date,
+    "2027-01-19",
+  );
+  assert.equal(
+    localParts(Date.parse("2027-07-20T02:29:00Z")).date,
+    "2027-07-19",
+  );
+  assert.equal(
+    localParts(Date.parse("2027-07-20T02:30:00Z")).date,
+    "2027-07-20",
+  );
 });
-test("chronology, newest notices and three-item previews", () => {
+test("all statuses remain upcoming through their local date and stay in original records", () => {
+  const c = {
+    events: ["scheduled", "updated", "cancelled"].map((status) =>
+      event({ id: `event-${status}`, status }),
+    ),
+    announcements: [],
+  };
+  assert.equal(
+    classify(c, Date.parse("2027-01-20T03:29:59Z")).events.length,
+    3,
+  );
+  assert.equal(
+    classify(c, Date.parse("2027-01-20T03:30:00Z")).events.length,
+    0,
+  );
+  assert.equal(c.events.length, 3);
+});
+test("chronological ordering, newest notices and three-item previews", () => {
   const c = {
     events: [23, 21, 22, 20].map((day) =>
-      normalized(event({ id: `event-${day}`, date: `2027-01-${day}` })),
+      event({ id: `event-${day}`, date: `2027-01-${day}` }),
     ),
     announcements: [15, 18, 16, 17].map((day) =>
       announcement({
@@ -185,7 +232,7 @@ test("chronology, newest notices and three-item previews", () => {
       }),
     ),
   };
-  const p = previews(c, at("2027-01-19", "12:00"));
+  const p = previews(c, now);
   assert.deepEqual(
     p.events.map((e) => e.id),
     ["event-20", "event-21", "event-22"],
@@ -194,18 +241,15 @@ test("chronology, newest notices and three-item previews", () => {
     p.announcements.map((a) => a.id),
     ["announcement-18", "announcement-17", "announcement-16"],
   );
-  assert.equal(
-    localParts(Date.parse("2027-01-20T03:29:00Z")).date,
-    "2027-01-19",
-  );
 });
-test("empty content produces useful empty selections", () =>
-  assert.deepEqual(
-    classify({ events: [], announcements: [] }, at("2027-01-19", "12:00")),
-    { events: [], active: [], archive: [] },
-  ));
-test("filesystem loader validates JSON, extension and cross-file references", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "510-content-"));
+test("empty content", () =>
+  assert.deepEqual(classify({ events: [], announcements: [] }, now), {
+    events: [],
+    active: [],
+    archive: [],
+  }));
+test("loader validates files and returns only the revised event schema", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "510-calendar-"));
   try {
     for (const kind of ["events", "announcements"])
       await mkdir(path.join(root, "content", kind), { recursive: true });
@@ -219,7 +263,7 @@ test("filesystem loader validates JSON, extension and cross-file references", as
     );
     const c = await loadContent(root, 123);
     assert.equal(c.builtAt, 123);
-    assert.equal(c.events.length, 1);
+    assert.deepEqual(c.events, [event()]);
     await writeFile(
       path.join(root, "content/events/event-bad.json"),
       "{ broken",

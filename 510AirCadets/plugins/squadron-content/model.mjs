@@ -4,9 +4,6 @@ const formatter = new Intl.DateTimeFormat("en-CA", {
   year: "numeric",
   month: "2-digit",
   day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  hourCycle: "h23",
 });
 export function localParts(now) {
   const p = Object.fromEntries(
@@ -14,7 +11,6 @@ export function localParts(now) {
   );
   return {
     date: `${p.year}-${p.month}-${p.day}`,
-    time: `${p.hour}:${p.minute}`,
   };
 }
 export function validDate(s) {
@@ -24,27 +20,6 @@ export function validDate(s) {
     !Number.isNaN(Date.parse(s)) &&
     new Date(`${s}T00:00:00Z`).toISOString().slice(0, 10) === s
   );
-}
-export function validTime(s) {
-  return typeof s === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(s);
-}
-const cache = new Map();
-export function localInstant(date, time) {
-  const key = `${date}T${time}`;
-  if (cache.has(key)) return cache.get(key);
-  const nominal = Date.parse(`${key}:00Z`);
-  const matches = [150, 210]
-    .map((offset) => nominal + offset * 60000)
-    .filter((ms) => {
-      const p = localParts(ms);
-      return p.date === date && p.time === time;
-    });
-  if (matches.length !== 1)
-    throw new Error(
-      "use an unambiguous, existing Newfoundland local time (daylight-saving transition)",
-    );
-  cache.set(key, matches[0]);
-  return matches[0];
 }
 export function validateRecords(records) {
   const errors = [],
@@ -57,12 +32,12 @@ export function validateRecords(records) {
     }
     const event = kind === "events";
     const required = event
-      ? ["id", "title", "date", "startTime", "status"]
+      ? ["id", "title", "date", "status"]
       : ["id", "title", "publicationDate", "message"];
     const allowed = new Set([
       ...required,
       ...(event
-        ? ["endTime", "location", "description", "updatedDate"]
+        ? ["description", "updatedDate"]
         : ["expiryDate", "relatedEvent", "category", "updatedDate"]),
     ]);
     for (const key of Object.keys(d))
@@ -78,9 +53,7 @@ export function validateRecords(records) {
         ? 1000
         : key === "title"
           ? 120
-          : key === "location"
-            ? 200
-            : 100;
+          : 100;
       if (value.length > max) fail(key, `must be at most ${max} characters`);
       if (/<\/?[a-z!][^>]*>/i.test(value))
         fail(key, "raw HTML is not supported; use plain text");
@@ -113,23 +86,6 @@ export function validateRecords(records) {
         fail("status", "expected scheduled, updated or cancelled");
       if (["updated", "cancelled"].includes(d.status) && !d.updatedDate)
         fail("updatedDate", "required for updated or cancelled events");
-      for (const field of ["startTime", "endTime"])
-        if (field in d) {
-          if (!validTime(d[field]))
-            fail(field, "expected HH:mm in 24-hour time");
-          else if (validDate(d.date))
-            try {
-              localInstant(d.date, d[field]);
-            } catch (e) {
-              fail(field, e.message);
-            }
-        }
-      if (
-        validTime(d.startTime) &&
-        validTime(d.endTime) &&
-        d.endTime <= d.startTime
-      )
-        fail("endTime", "must be later than startTime on the same date");
     } else {
       if (
         "category" in d &&
@@ -172,13 +128,8 @@ export function validateRecords(records) {
 export function classify(content, now) {
   const today = localParts(now).date;
   const events = content.events
-    .filter((e) => (e.endTime ? now < e.endsAt : e.date >= today))
-    .sort(
-      (a, b) =>
-        a.date.localeCompare(b.date) ||
-        a.startTime.localeCompare(b.startTime) ||
-        a.id.localeCompare(b.id),
-    );
+    .filter((e) => e.date >= today)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
   const published = content.announcements
     .filter((a) => a.publicationDate <= today)
     .sort(
@@ -195,4 +146,39 @@ export function classify(content, now) {
 export function previews(content, now) {
   const c = classify(content, now);
   return { events: c.events.slice(0, 3), announcements: c.active.slice(0, 3) };
+}
+
+// Calendar arithmetic uses UTC solely as a date container; event dates have no clock time.
+export function shiftMonth(year, month, delta) {
+  const total = Math.max(
+    2000 * 12,
+    Math.min(2099 * 12 + 11, year * 12 + month + delta),
+  );
+  return { year: Math.floor(total / 12), month: total % 12 };
+}
+export function monthCells(year, month) {
+  const first = new Date(Date.UTC(year, month, 1)).getUTCDay();
+  const days = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+  const count = Math.ceil((first + days) / 7) * 7;
+  return Array.from({ length: count }, (_, i) => {
+    const day = i - first + 1;
+    return day < 1 || day > days
+      ? null
+      : `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  });
+}
+export function moveDate(date, delta) {
+  const d = new Date(`${date}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + delta);
+  const next = d.toISOString().slice(0, 10);
+  return next < "2000-01-01"
+    ? "2000-01-01"
+    : next > "2099-12-31"
+      ? "2099-12-31"
+      : next;
+}
+export function eventsOnDate(events, date) {
+  return events
+    .filter((e) => e.date === date)
+    .sort((a, b) => a.id.localeCompare(b.id));
 }

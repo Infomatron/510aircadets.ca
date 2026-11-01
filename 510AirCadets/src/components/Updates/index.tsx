@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import Link from "@docusaurus/Link";
 import { useLocation } from "@docusaurus/router";
+import Head from "@docusaurus/Head";
 import Heading from "@theme/Heading";
 import {
   classify,
+  localParts,
+  validDate,
+  shiftMonth,
+  monthCells,
+  moveDate,
+  eventsOnDate,
   TIME_ZONE,
   type Content,
   type Event,
@@ -13,7 +20,6 @@ import {
 
 function useContent() {
   const content = usePluginData("squadron-content") as Content;
-  // Match generated HTML on first render, then classify with the visitor's clock.
   const [now, setNow] = useState(content.builtAt);
   useEffect(() => {
     const refresh = () => setNow(Date.now());
@@ -24,7 +30,7 @@ function useContent() {
     document.addEventListener("visibilitychange", visible);
     return () => document.removeEventListener("visibilitychange", visible);
   }, []);
-  return { content, ...classify(content, now) };
+  return { content, today: localParts(now).date, ...classify(content, now) };
 }
 export function dateLabel(date: string) {
   return new Intl.DateTimeFormat("en-CA", {
@@ -38,17 +44,10 @@ function StaticNote({ builtAt }: { builtAt: number }) {
   return (
     <noscript>
       <p className="updates-note">
-        JavaScript is disabled. These lists reflect the site build on{" "}
-        {dateLabel(
-          new Intl.DateTimeFormat("en-CA", {
-            timeZone: TIME_ZONE,
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          }).format(new Date(builtAt)),
-        )}
-        . Check the dates below; active and expired lists update automatically
-        when JavaScript is available.
+        JavaScript is disabled. This calendar and these lists reflect the build
+        on {dateLabel(localParts(builtAt).date)}. Interactive date selection
+        requires JavaScript; the public event list below remains available.
+        Check the explicit dates.
       </p>
     </noscript>
   );
@@ -56,14 +55,18 @@ function StaticNote({ builtAt }: { builtAt: number }) {
 export function EventList({
   events,
   preview = false,
+  archive = false,
 }: {
   events: Event[];
   preview?: boolean;
+  archive?: boolean;
 }) {
   if (!events.length)
     return (
       <p className="updates-empty">
-        No upcoming public events are listed. Check back for updates.
+        {archive
+          ? "No public events are listed for this date."
+          : "No upcoming public events are listed. Check back for updates."}
       </p>
     );
   return (
@@ -78,31 +81,13 @@ export function EventList({
                   ? "Updated"
                   : "Scheduled"}
             </p>
-            <Heading id={preview ? undefined : e.id} as={preview ? "h4" : "h2"}>
-              {e.title}
-            </Heading>
+            <Heading as={preview ? "h4" : "h3"}>{e.title}</Heading>
             <p>
-              <time dateTime={new Date(e.startsAt).toISOString()}>
-                {dateLabel(e.date)} · {e.startTime}
-              </time>
-              {e.endTime && (
-                <>
-                  –
-                  <time dateTime={new Date(e.endsAt!).toISOString()}>
-                    {e.endTime}
-                  </time>
-                </>
-              )}{" "}
-              <span>(Newfoundland time)</span>
+              <time dateTime={e.date}>{dateLabel(e.date)}</time>
             </p>
             {e.status === "cancelled" && (
               <p>
                 <strong>This event has been cancelled.</strong>
-              </p>
-            )}
-            {e.location && (
-              <p>
-                <strong>Location:</strong> {e.location}
               </p>
             )}
             {e.description && <p className="update-message">{e.description}</p>}
@@ -147,7 +132,6 @@ export function AnnouncementList({
     <ul className="updates-list">
       {items.map((a) => {
         const event = events.find((e) => e.id === a.relatedEvent);
-        // A related past event stays accessible below the Events page's disclosure.
         return (
           <li key={a.id}>
             <article
@@ -158,9 +142,7 @@ export function AnnouncementList({
                 {archived ? "Archived · " : ""}
                 {categories[a.category || "general"]}
               </p>
-              <Heading as={preview ? "h4" : archived ? "h3" : "h2"}>
-                {a.title}
-              </Heading>
+              <Heading as={preview ? "h4" : "h3"}>{a.title}</Heading>
               <p className="update-meta">
                 Published{" "}
                 <time dateTime={a.publicationDate}>
@@ -179,7 +161,7 @@ export function AnnouncementList({
               <p className="update-message">{a.message}</p>
               {event && (
                 <p>
-                  <Link to={`/events#${event.id}`}>
+                  <Link to={`/calendar?date=${event.date}#selected-events`}>
                     Related event: {event.title}
                   </Link>
                 </p>
@@ -197,83 +179,330 @@ export function AnnouncementList({
     </ul>
   );
 }
-export function EventsContent() {
-  const { content, events } = useContent();
-  const { hash } = useLocation();
-  const [pastExpanded, setPastExpanded] = useState(false);
-  const past = content.events
-    .filter((e) => !events.some((up) => up.id === e.id))
-    .sort((a, b) => b.startsAt - a.startsAt);
-  const targetIsPast = past.some((e) => `#${e.id}` === hash);
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const weekdays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+function MonthlyCalendar({
+  events,
+  today,
+}: {
+  events: Event[];
+  today: string;
+}) {
+  const [selected, setSelected] = useState(today);
+  const [view, setView] = useState({
+    year: Number(today.slice(0, 4)),
+    month: Number(today.slice(5, 7)) - 1,
+  });
+  const [focused, setFocused] = useState(today);
+  const touched = useRef(false);
+  const buttons = useRef(new Map<string, HTMLButtonElement>());
+  const { search, hash } = useLocation();
+  function select(date: string, focus = false) {
+    touched.current = true;
+    setSelected(date);
+    setFocused(date);
+    setView({
+      year: Number(date.slice(0, 4)),
+      month: Number(date.slice(5, 7)) - 1,
+    });
+    if (focus) requestAnimationFrame(() => buttons.current.get(date)?.focus());
+  }
   useEffect(() => {
-    if (targetIsPast) setPastExpanded(true);
-  }, [hash, targetIsPast]);
-  useEffect(() => {
-    if (pastExpanded && targetIsPast) {
-      const frame = requestAnimationFrame(() =>
-        document.getElementById(hash.slice(1))?.scrollIntoView(),
-      );
-      return () => cancelAnimationFrame(frame);
+    if (!touched.current) {
+      setSelected(today);
+      setFocused(today);
+      setView({
+        year: Number(today.slice(0, 4)),
+        month: Number(today.slice(5, 7)) - 1,
+      });
     }
-  }, [pastExpanded, targetIsPast, hash]);
+  }, [today]);
+  useEffect(() => {
+    const requested = new URLSearchParams(search).get("date");
+    const legacy = events.find((e) => `#${e.id}` === hash);
+    const date = requested && validDate(requested) ? requested : legacy?.date;
+    if (date) {
+      select(date);
+      if (hash)
+        requestAnimationFrame(() =>
+          document.getElementById("selected-events")?.scrollIntoView(),
+        );
+    }
+  }, [search, hash, events]);
+  function navigate(year: number, month: number) {
+    const date = `${year}-${String(month + 1).padStart(2, "0")}-01`;
+    select(date);
+  }
+  function shift(delta: number) {
+    const next = shiftMonth(view.year, view.month, delta);
+    navigate(next.year, next.month);
+  }
+  function keyboard(e: React.KeyboardEvent<HTMLButtonElement>, date: string) {
+    let next: string | undefined;
+    const offset = new Date(`${date}T12:00:00Z`).getUTCDay();
+    if (e.key === "ArrowLeft") next = moveDate(date, -1);
+    if (e.key === "ArrowRight") next = moveDate(date, 1);
+    if (e.key === "ArrowUp") next = moveDate(date, -7);
+    if (e.key === "ArrowDown") next = moveDate(date, 7);
+    if (e.key === "Home") next = moveDate(date, -offset);
+    if (e.key === "End") next = moveDate(date, 6 - offset);
+    if (e.key === "PageUp" || e.key === "PageDown") {
+      const n = shiftMonth(
+        view.year,
+        view.month,
+        (e.key === "PageUp" ? -1 : 1) * (e.shiftKey ? 12 : 1),
+      );
+      const day = Math.min(
+        Number(date.slice(8)),
+        new Date(Date.UTC(n.year, n.month + 1, 0)).getUTCDate(),
+      );
+      next = `${n.year}-${String(n.month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+    if (next) {
+      e.preventDefault();
+      setFocused(next);
+      setView({
+        year: Number(next.slice(0, 4)),
+        month: Number(next.slice(5, 7)) - 1,
+      });
+      touched.current = true;
+      requestAnimationFrame(() => buttons.current.get(next!)?.focus());
+    }
+  }
+  const cells = monthCells(view.year, view.month);
+  const count = events.filter((e) =>
+    e.date.startsWith(
+      `${view.year}-${String(view.month + 1).padStart(2, "0")}`,
+    ),
+  ).length;
+  return (
+    <section aria-labelledby="month-heading" className="calendar-panel">
+      <div className="calendar-toolbar">
+        <button
+          type="button"
+          onClick={() => shift(-1)}
+          disabled={view.year === 2000 && view.month === 0}
+          aria-label="Previous month"
+        >
+          ← Previous
+        </button>
+        <Heading as="h2" id="month-heading">
+          <span aria-live="polite">
+            {months[view.month]} {view.year}
+          </span>
+        </Heading>
+        <button
+          type="button"
+          onClick={() => shift(1)}
+          disabled={view.year === 2099 && view.month === 11}
+          aria-label="Next month"
+        >
+          Next →
+        </button>
+      </div>
+      <div className="calendar-selectors">
+        <label>
+          Month{" "}
+          <select
+            aria-label="Month"
+            value={view.month}
+            onChange={(e) => navigate(view.year, Number(e.target.value))}
+          >
+            {months.map((m, i) => (
+              <option value={i} key={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Year{" "}
+          <select
+            aria-label="Year"
+            value={view.year}
+            onChange={(e) => navigate(Number(e.target.value), view.month)}
+          >
+            {Array.from({ length: 100 }, (_, i) => 2000 + i).map((y) => (
+              <option value={y} key={y}>
+                {y}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button type="button" onClick={() => select(today)}>
+          Today
+        </button>
+      </div>
+      <p id="calendar-help" className="updates-note">
+        Select a date to view its events. Badges show the number of events on a
+        date. Keyboard: arrow keys move between dates; Home/End move within a
+        week; Page Up/Down change month (with Shift, year); Enter selects.
+      </p>
+      <p className="calendar-count" aria-live="polite">
+        {count
+          ? `${count} public ${count === 1 ? "event" : "events"} this month.`
+          : "No public events listed this month."}
+      </p>
+      <table
+        className="month-calendar"
+        aria-labelledby="month-heading"
+        aria-describedby="calendar-help"
+      >
+        <thead>
+          <tr>
+            {weekdays.map((day) => (
+              <th scope="col" key={day}>
+                <abbr title={day}>{day.slice(0, 3)}</abbr>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: cells.length / 7 }, (_, week) => (
+            <tr key={week}>
+              {cells.slice(week * 7, week * 7 + 7).map((date, i) => {
+                if (!date)
+                  return <td key={`blank-${i}`} className="calendar-blank" />;
+                const entries = eventsOnDate(events, date);
+                const statuses = [
+                  ...new Set(
+                    entries
+                      .filter((e) => e.status !== "scheduled")
+                      .map((e) => e.status),
+                  ),
+                ];
+                return (
+                  <td key={date}>
+                    <button
+                      type="button"
+                      ref={(el) => {
+                        if (el) buttons.current.set(date, el);
+                        else buttons.current.delete(date);
+                      }}
+                      tabIndex={date === focused ? 0 : -1}
+                      aria-pressed={date === selected}
+                      aria-current={date === today ? "date" : undefined}
+                      aria-label={`${dateLabel(date)}; ${entries.length} ${entries.length === 1 ? "event" : "events"}${statuses.length ? `; ${statuses.join(", ")}` : ""}`}
+                      onClick={() => select(date)}
+                      onKeyDown={(e) => keyboard(e, date)}
+                      className={`calendar-day ${entries.length ? "calendar-day--events" : ""}`}
+                    >
+                      <span className="calendar-number">
+                        {Number(date.slice(8))}
+                      </span>
+                      {entries.length > 0 && (
+                        <span
+                          className="calendar-event-count"
+                          aria-hidden="true"
+                        >
+                          {entries.length}
+                          <span className="calendar-event-word">
+                            {" "}
+                            {entries.length === 1 ? "event" : "events"}
+                          </span>
+                        </span>
+                      )}
+                    </button>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <section className="calendar-selection" aria-labelledby="selected-events">
+        <Heading as="h2" id="selected-events">
+          Events for {dateLabel(selected)}
+        </Heading>
+        <p className="visually-hidden" role="status">
+          {eventsOnDate(events, selected).length} events on{" "}
+          {dateLabel(selected)}
+        </p>
+        <EventList events={eventsOnDate(events, selected)} archive />
+      </section>
+    </section>
+  );
+}
+export function CalendarContent() {
+  const { content, today, active } = useContent();
   return (
     <>
-      <p>
-        All times are Newfoundland local time (America/St_Johns). Only
-        information approved for public release is listed here.
-      </p>
       <StaticNote builtAt={content.builtAt} />
-      <EventList events={events} />
-      {past.length > 0 && (
-        <details
-          open={pastExpanded}
-          onToggle={(e) => setPastExpanded(e.currentTarget.open)}
-        >
-          <summary>Past public events</summary>
-          <EventList events={past} />
-        </details>
-      )}
+      <MonthlyCalendar events={content.events} today={today} />
+      <noscript>
+        <section>
+          <h2>Public event list</h2>
+          <EventList
+            events={[...content.events].sort(
+              (a, b) =>
+                a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+            )}
+            archive
+          />
+        </section>
+      </noscript>
+      <section
+        className="calendar-announcements"
+        aria-labelledby="announcements"
+      >
+        <Heading as="h2" id="announcements">
+          Announcements
+        </Heading>
+        <p>
+          Public notices and reminders, newest first. Publication and expiry
+          dates use Newfoundland local dates.
+        </p>
+        <AnnouncementList items={active} events={content.events} />
+        <Link to="/calendar/archive">View announcement archive</Link>
+      </section>
     </>
   );
 }
-export function AnnouncementsContent({
-  archive = false,
-}: {
-  archive?: boolean;
-}) {
-  const { content, active, archive: expired } = useContent();
-  const items = archive ? expired : active;
-  const years = [...new Set(items.map((a) => a.publicationDate.slice(0, 4)))];
+export function AnnouncementsContent() {
+  const { content, archive } = useContent();
+  const years = [...new Set(archive.map((a) => a.publicationDate.slice(0, 4)))];
   return (
     <>
       <p>
-        {archive
-          ? "Expired notices are retained as a public record; they are not current instructions."
-          : "Public notices and reminders. Publication and expiry dates use Newfoundland local time."}
+        Expired notices are retained for reference and are not current
+        instructions.
       </p>
-      <p>
-        <Link to={archive ? "/announcements" : "/announcements/archive"}>
-          {archive ? "View active announcements" : "View announcement archive"}
-        </Link>
-      </p>
+      <Link to="/calendar#announcements">Back to Calendar & Announcements</Link>
       <StaticNote builtAt={content.builtAt} />
-      {archive && items.length ? (
-        years.map((year) => (
-          <section key={year}>
-            <Heading as="h2">{year}</Heading>
+      {years.length ? (
+        years.map((y) => (
+          <section key={y}>
+            <Heading as="h2">{y}</Heading>
             <AnnouncementList
-              items={items.filter((a) => a.publicationDate.startsWith(year))}
+              items={archive.filter((a) => a.publicationDate.startsWith(y))}
               events={content.events}
               archived
             />
           </section>
         ))
       ) : (
-        <AnnouncementList
-          items={items}
-          events={content.events}
-          archived={archive}
-        />
+        <AnnouncementList items={[]} events={content.events} archived />
       )}
     </>
   );
@@ -282,13 +511,13 @@ export function HomeUpdates() {
   const { content, events, active } = useContent();
   return (
     <section className="section container">
-      <Heading as="h2">Squadron updates</Heading>
+      <Heading as="h2">Calendar & Announcements</Heading>
       <StaticNote builtAt={content.builtAt} />
       <div className="updates-columns">
         <div>
           <Heading as="h3">Upcoming events</Heading>
           <EventList events={events.slice(0, 3)} preview />
-          <Link to="/events">View all public events</Link>
+          <Link to="/calendar">View calendar</Link>
         </div>
         <div>
           <Heading as="h3">Recent announcements</Heading>
@@ -297,9 +526,28 @@ export function HomeUpdates() {
             events={content.events}
             preview
           />
-          <Link to="/announcements">View all announcements</Link>
+          <Link to="/calendar#announcements">View all announcements</Link>
         </div>
       </div>
     </section>
+  );
+}
+export function CompatibilityRoute({ target }: { target: string }) {
+  useEffect(() => {
+    window.location.replace(
+      target + window.location.search + window.location.hash,
+    );
+  }, [target]);
+  return (
+    <>
+      <Head>
+        <meta httpEquiv="refresh" content={`0;url=${target}`} />
+        <link rel="canonical" href={`https://510aircadets.ca${target}`} />
+      </Head>
+      <p>
+        This page has moved.{" "}
+        <Link to={target}>Continue to Calendar & Announcements</Link>.
+      </p>
+    </>
   );
 }

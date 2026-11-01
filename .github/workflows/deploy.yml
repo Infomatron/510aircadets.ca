@@ -46,7 +46,7 @@ jobs:
       - name: Verify domain and public routes
         run: |
           test "$(cat build/CNAME)" = "510aircadets.ca"
-          for route in index.html about/index.html join/index.html activities/index.html parents-cadets/index.html contact/index.html events/index.html announcements/index.html announcements/archive/index.html; do
+          for route in index.html about/index.html join/index.html activities/index.html parents-cadets/index.html contact/index.html events/index.html announcements/index.html announcements/archive/index.html calendar/index.html calendar/archive/index.html; do
             test -s "build/$route"
           done
       - name: Upload Pages artifact

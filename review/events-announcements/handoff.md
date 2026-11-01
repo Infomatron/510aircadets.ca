@@ -1,3 +1,5 @@
+> Historical implementation handoff. The calendar revision in `../calendar-revision/handoff.md` supersedes the event schema, routes, interface and related guidance here. Historical screenshots show the earlier design.
+
 # Events and Announcements — implementation handoff
 
 Implemented locally on `feat/events-announcements`, based on verified remote main `da3c356d34a71921242a1521403cb817abdf48e9`. All three approved milestones are complete. No push, PR creation, merge, deployment, Pages setting change or branch-protection change was performed. Root production `docs/` is unchanged. No project dependencies or lockfile changes.

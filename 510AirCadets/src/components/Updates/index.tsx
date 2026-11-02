@@ -357,17 +357,14 @@ function MonthlyCalendar({
             ))}
           </select>
         </label>
-        <button type="button" onClick={() => select(today)}>
+        <button
+          className="calendar-today"
+          type="button"
+          onClick={() => select(today)}
+        >
           Today
         </button>
       </div>
-      <CategoryKey />
-      <p id="calendar-help" className="updates-note">
-        Select a date to view every event. Labels show event categories; +N more
-        counts additional events, including repeated categories. Keyboard: arrow
-        keys move between dates; Home/End move within a week; Page Up/Down
-        change month (with Shift, year); Enter selects.
-      </p>
       <p className="calendar-count" aria-live="polite">
         {count
           ? `${count} public ${count === 1 ? "event" : "events"} this month.`
@@ -429,6 +426,12 @@ function MonthlyCalendar({
           ))}
         </tbody>
       </table>
+      <p id="calendar-help" className="updates-note">
+        Select a date to view every event. Labels show event categories; +N more
+        counts additional events, including repeated categories. Keyboard: arrow
+        keys move between dates; Home/End move within a week; Page Up/Down
+        change month (with Shift, year); Enter selects.
+      </p>
       <section className="calendar-selection" aria-labelledby="selected-events">
         <Heading as="h2" id="selected-events">
           Events for {dateLabel(selected)}
@@ -439,6 +442,7 @@ function MonthlyCalendar({
         </p>
         <EventList events={eventsOnDate(events, selected)} archive />
       </section>
+      <CategoryKey />
     </section>
   );
 }

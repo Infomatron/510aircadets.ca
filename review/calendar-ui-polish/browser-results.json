@@ -1,0 +1,245 @@
+{
+  "browser": "153.0.8010.0",
+  "results": [
+    {
+      "width": 1440,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": true,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 12,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    },
+    {
+      "width": 1100,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": true,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 12,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    },
+    {
+      "width": 997,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": true,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 12,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    },
+    {
+      "width": 996,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": false,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 2,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    },
+    {
+      "width": 768,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": false,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 2,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    },
+    {
+      "width": 480,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": false,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 2,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    },
+    {
+      "width": 390,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": false,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 2,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    },
+    {
+      "width": 320,
+      "layout": {
+        "overflow": false,
+        "order": true,
+        "keyCount": 1,
+        "leftInset": 4.796875,
+        "numberBelowLabels": false,
+        "controls": [
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          },
+          {
+            "height": 44,
+            "paddingRight": 40,
+            "arrow": "calc(100% - 12px) 50%",
+            "appearance": "none"
+          }
+        ]
+      },
+      "visibleEventLabels": 2,
+      "iconsVerticallyCentred": true,
+      "navigationAndSelection": true,
+      "todayStatesAndFocus": true,
+      "forcedColorsNativeSelect": true,
+      "consoleErrors": []
+    }
+  ]
+}

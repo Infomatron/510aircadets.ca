@@ -1,0 +1,26 @@
+[
+  {
+    "state": "default",
+    "foreground": "#214867",
+    "background": "#F9BD11",
+    "contrast": 5.629835634538579
+  },
+  {
+    "state": "hover",
+    "foreground": "#214867",
+    "background": "#FFD052",
+    "contrast": 6.581214228713273
+  },
+  {
+    "state": "active",
+    "foreground": "#214867",
+    "background": "#EFB30E",
+    "contrast": 5.0855739794175685
+  },
+  {
+    "state": "disabled",
+    "foreground": "#3F5364",
+    "background": "#F5DE9D",
+    "contrast": 6.008288347712746
+  }
+]

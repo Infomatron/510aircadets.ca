@@ -1,0 +1,5 @@
+PASS: Docusaurus build rejects removed event fields.
+  content/events/event-legacy-check.json: startTime: unsupported field; remove it
+  content/events/event-legacy-check.json: endTime: unsupported field; remove it
+  content/events/event-legacy-check.json: location: unsupported field; remove it
+  content/events/event-legacy-check.json: duration: unsupported field; remove it

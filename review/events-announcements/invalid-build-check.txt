@@ -1,0 +1,4 @@
+PASS: production build rejects invalid content before rendering.
+  content/events/event-invalid-check.json: title: required field is missing
+  content/events/event-invalid-check.json: date: expected a real date in YYYY-MM-DD format, years 2000–2099
+  content/events/event-invalid-check.json: startTime: expected HH:mm in 24-hour time

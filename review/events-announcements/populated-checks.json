@@ -1,0 +1,67 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "route": "/",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "route": "/events/",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "route": "/announcements/",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "route": "/announcements/archive/",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "route": "/",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "route": "/events/",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "route": "/announcements/",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "route": "/announcements/archive/",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "route": "/",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "route": "/events/",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "route": "/announcements/",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "route": "/announcements/archive/",
+      "passed": true
+    }
+  ],
+  "visibilityRefresh": "passed",
+  "pastAnchor": "passed",
+  "errors": []
+}

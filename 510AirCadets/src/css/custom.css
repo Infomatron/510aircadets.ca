@@ -483,7 +483,7 @@ select:focus-visible {
 .calendar-day {
   width: 100%;
   min-height: 90px;
-  padding: 0.5rem 0.2rem;
+  padding: 0.5rem 0.3rem;
   border: 0;
   background: white;
   color: #17364e;
@@ -572,6 +572,7 @@ select:focus-visible {
   display: none;
 }
 .category-key {
+  margin-top: 1.5rem;
   margin-bottom: 1rem;
 }
 .category-legend {
@@ -605,9 +606,10 @@ select:focus-visible {
   text-align: left;
   font-size: 0.75rem;
   flex-wrap: nowrap;
-  align-items: flex-start;
+  align-items: center;
 }
 .event-category--cell .category-full-label {
+  flex: 1;
   min-width: 0;
 }
 .event-category--cell .category-symbol {
@@ -665,5 +667,54 @@ select:focus-visible {
   }
   .calendar-more-word {
     display: none;
+  }
+}
+
+/* Retain native select behaviour while giving its CSS arrow a predictable inset. */
+.calendar-selectors select {
+  appearance: none;
+  padding-inline: 0.75rem 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23214867' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.75rem 0.5rem;
+}
+.calendar-selectors .calendar-today {
+  background: #f9bd11;
+  color: #214867;
+  border-color: #214867;
+  font-weight: 700;
+}
+.calendar-selectors .calendar-today:hover:not(:disabled) {
+  background: #ffd052;
+}
+.calendar-selectors .calendar-today:active:not(:disabled) {
+  background: #efb30e;
+}
+.calendar-selectors .calendar-today:focus-visible {
+  outline: 3px solid #214867;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px white;
+}
+.calendar-selectors .calendar-today:disabled {
+  background: #f5de9d;
+  color: #3f5364;
+  border-color: #718096;
+  cursor: not-allowed;
+}
+.calendar-number {
+  align-self: flex-start;
+  text-align: left;
+}
+.event-category--cell .category-cell-status {
+  flex-basis: 100%;
+}
+#calendar-help {
+  margin-top: 1rem;
+}
+@media (forced-colors: active) {
+  .calendar-selectors select {
+    appearance: auto;
+    background-image: none;
   }
 }

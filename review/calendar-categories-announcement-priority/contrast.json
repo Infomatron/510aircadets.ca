@@ -1,0 +1,102 @@
+[
+  {
+    "id": "training",
+    "label": "Training",
+    "short": "Trn",
+    "symbol": "Book",
+    "color": "#214867",
+    "background": "#EAF1F7",
+    "textContrast": 8.42238231833025,
+    "borderOnWhite": 9.600144569954383
+  },
+  {
+    "id": "marksmanship",
+    "label": "Marksmanship",
+    "short": "Tgt",
+    "symbol": "Target",
+    "color": "#A12232",
+    "background": "#FCEEF0",
+    "textContrast": 6.6757252466468975,
+    "borderOnWhite": 7.526120301042072
+  },
+  {
+    "id": "band",
+    "label": "Band",
+    "short": "Bnd",
+    "symbol": "Music",
+    "color": "#6B3994",
+    "background": "#F3EDF9",
+    "textContrast": 6.934148170164985,
+    "borderOnWhite": 7.9604718547630124
+  },
+  {
+    "id": "choir",
+    "label": "Choir",
+    "short": "Chr",
+    "symbol": "Microphone",
+    "color": "#9E2265",
+    "background": "#FBEAF3",
+    "textContrast": 6.328124496651002,
+    "borderOnWhite": 7.315675832415248
+  },
+  {
+    "id": "ground-school",
+    "label": "Ground School",
+    "short": "Gnd",
+    "symbol": "Aircraft",
+    "color": "#005F91",
+    "background": "#E7F4FA",
+    "textContrast": 6.14577084084588,
+    "borderOnWhite": 6.8948526503892
+  },
+  {
+    "id": "ceremony",
+    "label": "Ceremony",
+    "short": "Cer",
+    "symbol": "Award",
+    "color": "#795300",
+    "background": "#FFF5D9",
+    "textContrast": 6.332152102219374,
+    "borderOnWhite": 6.8845864169835185
+  },
+  {
+    "id": "parade",
+    "label": "Parade",
+    "short": "Par",
+    "symbol": "Flag",
+    "color": "#515A19",
+    "background": "#F2F4DE",
+    "textContrast": 6.641208606121685,
+    "borderOnWhite": 7.430027034140564
+  },
+  {
+    "id": "field-training-exercise",
+    "label": "Field Training Exercise",
+    "short": "FTX",
+    "symbol": "Trees",
+    "color": "#236131",
+    "background": "#EAF5E8",
+    "textContrast": 6.62658264985976,
+    "borderOnWhite": 7.431805623145866
+  },
+  {
+    "id": "special-event",
+    "label": "Special Event",
+    "short": "Evt",
+    "symbol": "Star",
+    "color": "#9A420D",
+    "background": "#FFF0E3",
+    "textContrast": 5.959048680671931,
+    "borderOnWhite": 6.647457643888189
+  },
+  {
+    "id": "biathlon",
+    "label": "Biathlon",
+    "short": "Bia",
+    "symbol": "Medal",
+    "color": "#00695E",
+    "background": "#E4F5F0",
+    "textContrast": 5.850562221532924,
+    "borderOnWhite": 6.599082545592039
+  }
+]

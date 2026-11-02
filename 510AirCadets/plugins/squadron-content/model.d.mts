@@ -1,7 +1,9 @@
+import type { EventCategory } from "./categories.mjs";
 export interface Event {
   id: string;
   title: string;
   date: string;
+  category: EventCategory;
   description?: string;
   status: "scheduled" | "updated" | "cancelled";
   updatedDate?: string;

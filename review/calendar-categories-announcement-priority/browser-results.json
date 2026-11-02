@@ -1,0 +1,77 @@
+{
+  "browser": "Chromium",
+  "results": [
+    {
+      "width": 1440,
+      "fixtureEvents": 12,
+      "visibleLabels": 12,
+      "more": 0,
+      "overflow": false,
+      "keyboard": true
+    },
+    {
+      "width": 1100,
+      "fixtureEvents": 12,
+      "visibleLabels": 12,
+      "more": 0,
+      "overflow": false,
+      "keyboard": true
+    },
+    {
+      "width": 997,
+      "fixtureEvents": 12,
+      "visibleLabels": 12,
+      "more": 0,
+      "overflow": false,
+      "keyboard": true
+    },
+    {
+      "width": 996,
+      "fixtureEvents": 12,
+      "visibleLabels": 2,
+      "more": 10,
+      "overflow": false,
+      "keyboard": true
+    },
+    {
+      "width": 768,
+      "fixtureEvents": 12,
+      "visibleLabels": 2,
+      "more": 10,
+      "overflow": false,
+      "keyboard": true
+    },
+    {
+      "width": 480,
+      "fixtureEvents": 12,
+      "visibleLabels": 2,
+      "more": 10,
+      "overflow": false,
+      "keyboard": true
+    },
+    {
+      "width": 390,
+      "fixtureEvents": 12,
+      "visibleLabels": 2,
+      "more": 10,
+      "overflow": false,
+      "keyboard": true
+    },
+    {
+      "width": 320,
+      "fixtureEvents": 12,
+      "visibleLabels": 2,
+      "more": 10,
+      "overflow": false,
+      "keyboard": true
+    }
+  ],
+  "productionScreenshots": [
+    1440,
+    768,
+    390
+  ],
+  "visibilityRefreshExpiry": true,
+  "noJavaScriptFallback": true,
+  "publicRoutes": 11
+}

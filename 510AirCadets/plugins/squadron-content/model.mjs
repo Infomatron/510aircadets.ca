@@ -1,3 +1,4 @@
+import { EVENT_CATEGORIES, compareCategories } from "./categories.mjs";
 export const TIME_ZONE = "America/St_Johns";
 const formatter = new Intl.DateTimeFormat("en-CA", {
   timeZone: TIME_ZONE,
@@ -32,7 +33,7 @@ export function validateRecords(records) {
     }
     const event = kind === "events";
     const required = event
-      ? ["id", "title", "date", "status"]
+      ? ["id", "title", "date", "category", "status"]
       : ["id", "title", "publicationDate", "message"];
     const allowed = new Set([
       ...required,
@@ -111,6 +112,11 @@ export function validateRecords(records) {
           "expected a real date in YYYY-MM-DD format, years 2000–2099",
         );
     if (event) {
+      if (!EVENT_CATEGORIES.some((c) => c.id === d.category))
+        fail(
+          "category",
+          `choose exactly one category string: ${EVENT_CATEGORIES.map((c) => c.id).join(", ")}`,
+        );
       if (!["scheduled", "updated", "cancelled"].includes(d.status))
         fail("status", "expected scheduled, updated or cancelled");
       if (["updated", "cancelled"].includes(d.status) && !d.updatedDate)
@@ -207,7 +213,5 @@ export function moveDate(date, delta) {
       : next;
 }
 export function eventsOnDate(events, date) {
-  return events
-    .filter((e) => e.date === date)
-    .sort((a, b) => a.id.localeCompare(b.id));
+  return events.filter((e) => e.date === date).sort(compareCategories);
 }

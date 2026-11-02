@@ -1,0 +1,83 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 1200,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 1100,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 1024,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 997,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 996,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "routes": 8,
+      "brandHome": true,
+      "exploreOrder": true,
+      "keyboard": true,
+      "overflow": false
+    }
+  ],
+  "routeViewportChecks": 72,
+  "internalUrls": 15,
+  "nestedContentRendering": "passed",
+  "relatedEventAcrossMonths": "passed",
+  "announcementArchive": "passed",
+  "errors": [],
+  "calendarMonthYearNavigation": "passed at 1440 and 390 px, including February 2028"
+}

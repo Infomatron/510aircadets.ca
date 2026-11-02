@@ -29,7 +29,11 @@ const announcement = (extra = {}) => ({
   message: "Fictional test only.",
   ...extra,
 });
-const record = (kind, data, file = `content/${kind}/${data.id}.json`) => ({
+const record = (
+  kind,
+  data,
+  file = `content/${kind}/2027/01/${data.id}.json`,
+) => ({
   kind,
   data,
   file,
@@ -88,9 +92,11 @@ test("missing required fields and non-objects fail by file and field", () => {
     /bad.json.*JSON object/,
   );
 });
-test("stable filenames, duplicates and conditional update dates", () => {
+test("valid filenames, duplicates and conditional update dates", () => {
   assert.match(
-    validateRecords([record("events", event(), "wrong.json")]).join("\n"),
+    validateRecords([
+      record("events", event(), "content/events/2027/01/Wrong_name.json"),
+    ]).join("\n"),
     /filename/,
   );
   assert.match(
@@ -252,28 +258,181 @@ test("loader validates files and returns only the revised event schema", async (
   const root = await mkdtemp(path.join(os.tmpdir(), "510-calendar-"));
   try {
     for (const kind of ["events", "announcements"])
-      await mkdir(path.join(root, "content", kind), { recursive: true });
+      await mkdir(path.join(root, "content", kind, "2027", "01"), {
+        recursive: true,
+      });
     await writeFile(
-      path.join(root, "content/events/event-test.json"),
+      path.join(root, "content/events/2027/01/event-test.json"),
       JSON.stringify(event()),
     );
     await writeFile(
-      path.join(root, "content/announcements/announcement-test.json"),
+      path.join(root, "content/announcements/2027/01/announcement-test.json"),
       JSON.stringify(announcement({ relatedEvent: "event-test" })),
     );
     const c = await loadContent(root, 123);
     assert.equal(c.builtAt, 123);
     assert.deepEqual(c.events, [event()]);
     await writeFile(
-      path.join(root, "content/events/event-bad.json"),
+      path.join(root, "content/events/2027/01/event-bad.json"),
       "{ broken",
     );
-    await writeFile(path.join(root, "content/events/notes.txt"), "bad");
+    await writeFile(path.join(root, "content/events/2027/01/notes.txt"), "bad");
     await assert.rejects(
       loadContent(root),
       (e) =>
         e.message.includes("event-bad.json: JSON:") &&
         e.message.includes("notes.txt: filename:"),
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("date-prefixed filenames need not equal stable identifiers", () => {
+  assert.deepEqual(
+    validateRecords([
+      record(
+        "events",
+        event(),
+        "content/events/2027/01/2027-01-19-fictional-event.json",
+      ),
+    ]),
+    [],
+  );
+});
+for (const folder of [
+  "2027/1",
+  "2027/00",
+  "2027/13",
+  "27/01",
+  "2027/january",
+  "2027/01/extra",
+  "",
+])
+  test(`reject invalid content directory ${folder || "(flat)"}`, () => {
+    assert.match(
+      validateRecords([
+        record(
+          "events",
+          event(),
+          `content/events/${folder ? folder + "/" : ""}example.json`,
+        ),
+      ]).join("\n"),
+      /directory: expected/,
+    );
+  });
+test("directory follows event date or publication date, not announcement expiry", () => {
+  assert.match(
+    validateRecords([
+      record("events", event(), "content/events/2027/02/example.json"),
+    ]).join("\n"),
+    /move this file to content\/events\/2027\/01/,
+  );
+  assert.deepEqual(
+    validateRecords([
+      record(
+        "announcements",
+        announcement({ expiryDate: "2027-03-01" }),
+        "content/announcements/2027/01/2027-01-19-example.json",
+      ),
+    ]),
+    [],
+  );
+  assert.match(
+    validateRecords([
+      record(
+        "announcements",
+        announcement(),
+        "content/announcements/2027/03/example.json",
+      ),
+    ]).join("\n"),
+    /match publicationDate/,
+  );
+});
+test("duplicate ids are detected across years and months", () => {
+  for (const kind of ["events", "announcements"]) {
+    const a = kind === "events" ? event() : announcement();
+    const b =
+      kind === "events"
+        ? event({ date: "2028-02-01" })
+        : announcement({ publicationDate: "2028-02-01" });
+    assert.match(
+      validateRecords([
+        record(kind, a, `content/${kind}/2027/01/first.json`),
+        record(kind, b, `content/${kind}/2028/02/second.json`),
+      ]).join("\n"),
+      /duplicate identifier/,
+    );
+  }
+});
+test("recursive loading and rescheduling preserve ids, messages and references", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "510-organized-"));
+  async function put(kind, relative, data) {
+    const file = path.join(root, "content", kind, relative);
+    await mkdir(path.dirname(file), { recursive: true });
+    await writeFile(file, JSON.stringify(data));
+    return file;
+  }
+  try {
+    const before = event();
+    const source = await put(
+      "events",
+      "2027/01/2027-01-19-example.json",
+      before,
+    );
+    const note = announcement({
+      relatedEvent: before.id,
+      expiryDate: "2027-02-28",
+    });
+    await put("announcements", "2027/01/2027-01-19-reminder.json", note);
+    await put(
+      "events",
+      "2028/02/2028-02-29-leap.json",
+      event({ id: "event-leap", date: "2028-02-29" }),
+    );
+    const loaded = await loadContent(root, 123);
+    assert.equal(loaded.events.length, 2);
+    assert.deepEqual(loaded.announcements, [note]);
+    await rm(source);
+    const after = {
+      ...before,
+      date: "2027-02-03",
+      status: "updated",
+      updatedDate: "2027-01-20",
+    };
+    await put("events", "2027/02/2027-02-03-example.json", after);
+    const moved = await loadContent(root, 123);
+    assert.deepEqual(
+      moved.events.find((e) => e.id === before.id),
+      after,
+    );
+    assert.equal(moved.announcements[0].relatedEvent, before.id);
+    assert.equal(eventsOnDate(moved.events, "2027-01-19").length, 0);
+    assert.equal(eventsOnDate(moved.events, "2027-02-03").length, 1);
+    assert.equal(
+      classify(moved, Date.parse("2027-03-01T15:00:00Z")).archive.length,
+      1,
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+test("loader reports invalid empty directories and legacy flat files", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "510-layout-invalid-"));
+  try {
+    await mkdir(path.join(root, "content/events/2027/1"), { recursive: true });
+    await mkdir(path.join(root, "content/announcements/2027/01"), {
+      recursive: true,
+    });
+    await writeFile(
+      path.join(root, "content/events/event-test.json"),
+      JSON.stringify(event()),
+    );
+    await assert.rejects(
+      loadContent(root),
+      (e) =>
+        e.message.includes("expected a zero-padded month") &&
+        e.message.includes("event-test.json: directory: expected"),
     );
   } finally {
     await rm(root, { recursive: true, force: true });

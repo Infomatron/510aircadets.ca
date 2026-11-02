@@ -68,11 +68,40 @@ export function validateRecords(records) {
           "id",
           `use ${event ? "event" : "announcement"}- followed by lowercase words separated by hyphens`,
         );
-      if (file.split("/").pop() !== `${d.id}.json`)
-        fail("id", "must match the filename without .json");
       if (ids.has(d.id)) fail("id", "duplicate identifier");
       ids.add(d.id);
     }
+    const parts = file.split("/");
+    const expectedDate = event ? d.date : d.publicationDate;
+    if (
+      parts.length !== 5 ||
+      parts[0] !== "content" ||
+      parts[1] !== kind ||
+      !/^20\d{2}$/.test(parts[2]) ||
+      !/^(0[1-9]|1[0-2])$/.test(parts[3])
+    ) {
+      fail(
+        "directory",
+        `expected content/${kind}/YYYY/MM/filename.json with a four-digit year and zero-padded month`,
+      );
+    } else if (
+      validDate(expectedDate) &&
+      `${parts[2]}-${parts[3]}` !== expectedDate.slice(0, 7)
+    ) {
+      fail(
+        "directory",
+        `move this file to content/${kind}/${expectedDate.slice(0, 4)}/${expectedDate.slice(5, 7)}/ to match ${event ? "date" : "publicationDate"}`,
+      );
+    }
+    const basename = parts.at(-1);
+    if (
+      !/^[a-z0-9]+(?:-[a-z0-9]+)*\.json$/.test(basename) ||
+      basename.length > 140
+    )
+      fail(
+        "filename",
+        "use a lowercase .json filename with words/numbers separated by hyphens, at most 140 characters",
+      );
     for (const field of event
       ? ["date", "updatedDate"]
       : ["publicationDate", "expiryDate", "updatedDate"])

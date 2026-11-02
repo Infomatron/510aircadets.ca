@@ -405,15 +405,6 @@ details p {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
 }
-@media (max-width: 1200px) and (min-width: 997px) {
-  .navbar__title {
-    display: none;
-  }
-  .navbar__item {
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
-  }
-}
 @media (max-width: 760px) {
   .updates-columns {
     grid-template-columns: 1fr;

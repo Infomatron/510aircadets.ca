@@ -17,8 +17,8 @@ Never include cadet personal information, attendance lists, private contacts, un
 ## 2. Add an event
 
 1. Copy `510AirCadets/contributor-templates/event.json`.
-2. On your branch, choose **Add file → Create new file**. Name it `510AirCadets/content/events/event-your-short-name.json`.
-3. Paste the template and replace all fictional values. Set `id` to `event-your-short-name`, exactly matching the filename without `.json`. Use lowercase words, numbers and hyphens.
+2. On your branch, choose **Add file → Create new file**. Name it `510AirCadets/content/events/2027/01/2027-01-19-example.json`, replacing the example date and short name. GitHub creates the year/month folders from the full filename you enter.
+3. Paste the template and replace all fictional values. Set a unique `id` such as `event-your-short-name`. The identifier is independent of the filename; use lowercase words, numbers and hyphens, and never change an existing id.
 4. Supply a title, a date in `YYYY-MM-DD` format and status `scheduled`. These, plus the stable identifier, are sufficient for a basic event.
 5. Choose **Commit changes**, describe the proposed change and commit to your feature branch. This does not publish to the squadron website.
 
@@ -30,11 +30,11 @@ Use one file for each event. Multiple events can share a date. Dates use Newfoun
 
 ### Update or cancel
 
-Edit the existing file with its pencil button. Preserve the identifier and filename, even if its date changes. Use status `updated` or `cancelled` and set `updatedDate` to the date of your correction. Both statuses require that field. Do not delete a cancelled record: its date remains visible with a Cancelled label. An optional related announcement can explain an approved change, but does not update the event automatically.
+Edit the existing file with its pencil button. Preserve the identifier. If the date changes, move the file to the year/month of its new date in the same commit; you may also rename its date-prefixed filename. In GitHub’s file editor, edit the full filename/path above the text area, then edit the JSON date. Do not leave a second copy behind. Use status `updated` or `cancelled` and set `updatedDate` to the date of your correction. Both statuses require that field. Do not delete a cancelled record: its date remains visible with a Cancelled label. An optional related announcement can explain an approved change, but does not update the event automatically.
 
 ## 3. Add or correct an announcement
 
-Copy `510AirCadets/contributor-templates/announcement.json` to `510AirCadets/content/announcements/announcement-your-short-name.json`. Match its id to that filename without `.json`.
+Copy `510AirCadets/contributor-templates/announcement.json` to `510AirCadets/content/announcements/2027/01/2027-01-12-example.json`, replacing the date and short name. Set a unique stable id such as `announcement-your-short-name`; it does not have to match the filename. Organize by publication date, not expiry date or correction date.
 
 Required: `id`, `title`, `publicationDate`, `message`.
 Optional: `expiryDate`, `relatedEvent`, `category`, `updatedDate`.
@@ -45,6 +45,23 @@ Messages are plain text; no HTML or Markdown. Use `\n\n` inside a JSON string fo
 Expiry dates are inclusive in Newfoundland. A notice expiring `2027-01-19` remains active through that date and is archived from the next local midnight. Without expiry, a notice stays active until deliberately updated. Future publication dates hide notices from normal lists, but their text is PUBLIC in GitHub and built site data: this is not embargoed publishing.
 
 For a correction, retain the original id and publication date, edit its message and add/update `updatedDate`. Create a new record for a different announcement.
+
+## Directory rules and fictional placement examples
+
+Use exactly `content/events/YYYY/MM/filename.json` or `content/announcements/YYYY/MM/filename.json` inside `510AirCadets/`. Years have four digits (2000–2099); months are numeric and zero-padded (`01`–`12`). Named months, flat files and extra subfolders fail validation. JSON discovery is recursive, and ids must be unique across all year/month folders.
+
+The event folder must match `date`. An announcement folder must match `publicationDate`; changing only its message, `updatedDate` or `expiryDate` does not move it. If correcting a mistaken publication date, also correct its folder and retain its id. Prefer date-prefixed filenames for browsing; valid lowercase hyphen-separated legacy filenames are also accepted after moving to the correct folder. Filenames need not equal ids and may be renamed without changing references. Maximum filename length: 140 characters including `.json`.
+
+These examples are fictional and do not describe confirmed squadron activities:
+
+| Change | File path within `510AirCadets/` | Identifier |
+| --- | --- | --- |
+| New event dated 2027-01-19 | `content/events/2027/01/2027-01-19-example.json` | `event-example` |
+| Same event rescheduled to 2027-02-03 | `content/events/2027/02/2027-02-03-example.json` | Keep `event-example` |
+| New notice published 2027-01-12 | `content/announcements/2027/01/2027-01-12-example.json` | `announcement-example` |
+| Message corrected in February, original publication retained | Same January announcement path | Keep `announcement-example` |
+
+For a reschedule, change the existing file’s path and date together, set `status` to `updated`, and set `updatedDate`. Announcement `relatedEvent` references keep working because the id stays the same. Do not copy the record into its new month and leave the old copy: duplicate ids fail validation. The calendar and public URLs do not depend on source filenames or folder names.
 
 ## 4. JSON tips
 

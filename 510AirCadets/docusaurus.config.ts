@@ -33,10 +33,16 @@ const config: Config = {
       title: "510 Air Cadets",
       logo: { alt: "", src: "img/squadron-crest.png", width: 40, height: 40 },
       items: [
-        { to: "/", label: "Home", position: "left", activeBaseRegex: "^/$" },
-        { to: "/about", label: "About", position: "left" },
-        { to: "/join", label: "Join", position: "left" },
-        { to: "/activities", label: "Activities", position: "left" },
+        {
+          type: "dropdown",
+          label: "Explore",
+          position: "left",
+          items: [
+            { to: "/about", label: "About" },
+            { to: "/join", label: "Join" },
+            { to: "/activities", label: "Activities" },
+          ],
+        },
         {
           to: "/calendar",
           label: "Calendar & Announcements",

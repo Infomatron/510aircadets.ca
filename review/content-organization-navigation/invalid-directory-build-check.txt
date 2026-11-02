@@ -1,0 +1,2 @@
+PASS: isolated Docusaurus build rejects mismatched directory/date.
+  content/events/2026/11/2026-11-14-one.json: directory: move this file to content/events/2026/12/ to match date

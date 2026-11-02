@@ -31,4 +31,4 @@ See [milestone 3 handoff](review/milestone-3/handoff.md) for exact protection, m
 
 ## Calendar & Announcements
 
-See [the cadet contribution guide](510AirCadets/CONTRIBUTING.md) for fork-based GitHub editing, templates and public-release rules.
+See [the cadet contribution guide](510AirCadets/CONTRIBUTING.md) for fork-based GitHub editing, templates and public-release rules..

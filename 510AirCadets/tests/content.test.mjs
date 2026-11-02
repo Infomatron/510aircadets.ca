@@ -19,6 +19,7 @@ const event = (extra = {}) => ({
   id: "event-test",
   title: "Fictional fixture",
   date: "2027-01-19",
+  category: "training",
   status: "scheduled",
   ...extra,
 });
@@ -76,7 +77,7 @@ for (const [field, value, match] of [
 test("missing required fields and non-objects fail by file and field", () => {
   for (const kind of ["events", "announcements"])
     for (const field of kind === "events"
-      ? ["id", "title", "date", "status"]
+      ? ["id", "title", "date", "category", "status"]
       : ["id", "title", "publicationDate", "message"]) {
       const d = kind === "events" ? event() : announcement();
       delete d[field];
@@ -436,5 +437,93 @@ test("loader reports invalid empty directories and legacy flat files", async () 
     );
   } finally {
     await rm(root, { recursive: true, force: true });
+  }
+});
+
+// The vocabulary and presentation order are application-owned, not content fields.
+import {
+  EVENT_CATEGORIES,
+  calendarEntries,
+} from "../plugins/squadron-content/categories.mjs";
+for (const c of EVENT_CATEGORIES)
+  test(`approved category ${c.id}`, () =>
+    assert.deepEqual(
+      validateRecords([record("events", event({ category: c.id }))]),
+      [],
+    ));
+for (const category of [
+  undefined,
+  null,
+  [],
+  ["training"],
+  ["training", "band"],
+  "training,band",
+  "Training",
+  "unknown",
+  42,
+])
+  test(`reject invalid event category ${JSON.stringify(category)}`, () => {
+    const d = event({ category });
+    if (category === undefined) delete d.category;
+    assert.match(
+      validateRecords([record("events", d)]).join("\n"),
+      /category:/,
+    );
+  });
+test("category ordering is vocabulary order then stable id, never grouped away", () => {
+  const input = [
+    event({ id: "event-band", category: "band" }),
+    event({ id: "event-training-b" }),
+    event({ id: "event-training-a" }),
+    event({ id: "event-target", category: "marksmanship" }),
+  ];
+  const { visible, more } = calendarEntries(input, 2);
+  assert.deepEqual(
+    visible.map((e) => e.id),
+    ["event-training-a", "event-training-b"],
+  );
+  assert.equal(more, 2);
+  assert.deepEqual(
+    calendarEntries(input).visible.map((e) => e.id),
+    ["event-training-a", "event-training-b", "event-target", "event-band"],
+  );
+  assert.equal(input[0].id, "event-band");
+  assert.equal(eventsOnDate(input, "2027-01-19").length, 4);
+});
+test("+N more counts events including duplicate categories", () => {
+  const entries = Array.from({ length: 5 }, (_, i) =>
+    event({ id: `event-${i}`, category: "training" }),
+  );
+  assert.equal(calendarEntries(entries, 2).more, 3);
+  assert.equal(calendarEntries(entries, 2).visible.length, 2);
+  assert.equal(calendarEntries(entries).more, 0);
+  assert.deepEqual(calendarEntries([], 2), { visible: [], more: 0 });
+  assert.equal(calendarEntries(entries, 0).more, 5);
+});
+function luminance(hex) {
+  const rgb = hex
+    .slice(1)
+    .match(/../g)
+    .map((s) => parseInt(s, 16) / 255)
+    .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+}
+function contrast(a, b) {
+  const x = luminance(a),
+    y = luminance(b);
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+}
+test("all ten categories have unique colours and readable labels/decorative symbols", () => {
+  assert.equal(EVENT_CATEGORIES.length, 10);
+  assert.equal(new Set(EVENT_CATEGORIES.map((c) => c.id)).size, 10);
+  assert.equal(new Set(EVENT_CATEGORIES.map((c) => c.color)).size, 10);
+  for (const c of EVENT_CATEGORIES) {
+    assert.ok(c.label && c.short && c.symbol && c.paths.length);
+    assert.ok(contrast(c.color, c.background) >= 4.5, `${c.id} text contrast`);
+    assert.ok(contrast(c.color, "#FFFFFF") >= 3, `${c.id} indicator contrast`);
+    assert.ok(
+      contrast(c.background, "#214867") >= 3,
+      `${c.id} selected-cell boundary`,
+    );
   }
 });

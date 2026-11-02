@@ -1,3 +1,9 @@
+import {
+  CategoryBadge,
+  CategoryKey,
+  CalendarCategoryLabels,
+} from "./EventCategories";
+import { CATEGORY_BY_ID } from "../../../plugins/squadron-content/categories.mjs";
 import { useEffect, useState, useRef } from "react";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import Link from "@docusaurus/Link";
@@ -82,6 +88,7 @@ export function EventList({
                   : "Scheduled"}
             </p>
             <Heading as={preview ? "h4" : "h3"}>{e.title}</Heading>
+            <CategoryBadge category={e.category} />
             <p>
               <time dateTime={e.date}>{dateLabel(e.date)}</time>
             </p>
@@ -354,10 +361,12 @@ function MonthlyCalendar({
           Today
         </button>
       </div>
+      <CategoryKey />
       <p id="calendar-help" className="updates-note">
-        Select a date to view its events. Badges show the number of events on a
-        date. Keyboard: arrow keys move between dates; Home/End move within a
-        week; Page Up/Down change month (with Shift, year); Enter selects.
+        Select a date to view every event. Labels show event categories; +N more
+        counts additional events, including repeated categories. Keyboard: arrow
+        keys move between dates; Home/End move within a week; Page Up/Down
+        change month (with Shift, year); Enter selects.
       </p>
       <p className="calendar-count" aria-live="polite">
         {count
@@ -403,7 +412,7 @@ function MonthlyCalendar({
                       tabIndex={date === focused ? 0 : -1}
                       aria-pressed={date === selected}
                       aria-current={date === today ? "date" : undefined}
-                      aria-label={`${dateLabel(date)}; ${entries.length} ${entries.length === 1 ? "event" : "events"}${statuses.length ? `; ${statuses.join(", ")}` : ""}`}
+                      aria-label={`${dateLabel(date)}; ${entries.length} ${entries.length === 1 ? "event" : "events"}${statuses.length ? `; ${statuses.join(", ")}` : ""}; ${entries.map((e) => `${CATEGORY_BY_ID[e.category].label}: ${e.title} (${e.status})`).join("; ")}`}
                       onClick={() => select(date)}
                       onKeyDown={(e) => keyboard(e, date)}
                       className={`calendar-day ${entries.length ? "calendar-day--events" : ""}`}
@@ -411,18 +420,7 @@ function MonthlyCalendar({
                       <span className="calendar-number">
                         {Number(date.slice(8))}
                       </span>
-                      {entries.length > 0 && (
-                        <span
-                          className="calendar-event-count"
-                          aria-hidden="true"
-                        >
-                          {entries.length}
-                          <span className="calendar-event-word">
-                            {" "}
-                            {entries.length === 1 ? "event" : "events"}
-                          </span>
-                        </span>
-                      )}
+                      <CalendarCategoryLabels events={entries} />
                     </button>
                   </td>
                 );
@@ -449,19 +447,6 @@ export function CalendarContent() {
   return (
     <>
       <StaticNote builtAt={content.builtAt} />
-      <MonthlyCalendar events={content.events} today={today} />
-      <noscript>
-        <section>
-          <h2>Public event list</h2>
-          <EventList
-            events={[...content.events].sort(
-              (a, b) =>
-                a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
-            )}
-            archive
-          />
-        </section>
-      </noscript>
       <section
         className="calendar-announcements"
         aria-labelledby="announcements"
@@ -476,6 +461,19 @@ export function CalendarContent() {
         <AnnouncementList items={active} events={content.events} />
         <Link to="/calendar/archive">View announcement archive</Link>
       </section>
+      <MonthlyCalendar events={content.events} today={today} />
+      <noscript>
+        <section>
+          <h2>Public event list</h2>
+          <EventList
+            events={[...content.events].sort(
+              (a, b) =>
+                a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+            )}
+            archive
+          />
+        </section>
+      </noscript>
     </>
   );
 }

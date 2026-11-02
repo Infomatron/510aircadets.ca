@@ -4,7 +4,7 @@ export default function Calendar() {
   return (
     <ContentPage
       title="Calendar & Announcements"
-      description="Public squadron dates and announcements. Select a date to see its events, then find current notices below the calendar."
+      description="Read current announcements first, then browse public squadron dates and select a day for event details."
     >
       <CalendarContent />
     </ContentPage>

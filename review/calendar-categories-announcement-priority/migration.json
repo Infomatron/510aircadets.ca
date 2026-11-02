@@ -1,0 +1,37 @@
+[
+  {
+    "file": "510AirCadets/content/events/2026/11/2026-11-02-marksmanship.json",
+    "id": "event-2026-11-02-marksmanship",
+    "title": "Marksmanship - Level 1 Only",
+    "category": "marksmanship",
+    "originalFieldsUnchanged": true
+  },
+  {
+    "file": "510AirCadets/content/events/2026/11/2026-11-03-training.json",
+    "id": "event-2026-11-03-training",
+    "title": "Regular Training - FTUs",
+    "category": "training",
+    "originalFieldsUnchanged": true
+  },
+  {
+    "file": "510AirCadets/content/events/2026/11/2026-11-09-remembrance.json",
+    "id": "event-2026-11-09-remembrance",
+    "title": "Remembrance Day Ceremony - Specific Teams",
+    "category": "ceremony",
+    "originalFieldsUnchanged": true
+  },
+  {
+    "file": "510AirCadets/content/events/2026/11/2026-11-11-remembrance.json",
+    "id": "event-2026-11-11-remembrance",
+    "title": "Remembrance Day Ceremony - All",
+    "category": "ceremony",
+    "originalFieldsUnchanged": true
+  },
+  {
+    "file": "510AirCadets/content/events/2026/11/2026-11-29-ftx.json",
+    "id": "event-2026-11-29-ftx",
+    "title": "FTX",
+    "category": "field-training-exercise",
+    "originalFieldsUnchanged": true
+  }
+]

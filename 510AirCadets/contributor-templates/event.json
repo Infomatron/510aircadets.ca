@@ -1,6 +1,7 @@
 {
   "id": "event-example",
-  "title": "Fictional example — replace before submitting",
+  "title": "Fictional example \u2014 replace before submitting",
   "date": "2027-01-19",
-  "status": "scheduled"
+  "status": "scheduled",
+  "category": "training"
 }

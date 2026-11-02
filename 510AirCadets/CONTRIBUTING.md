@@ -19,14 +19,47 @@ Never include cadet personal information, attendance lists, private contacts, un
 1. Copy `510AirCadets/contributor-templates/event.json`.
 2. On your branch, choose **Add file → Create new file**. Name it `510AirCadets/content/events/2027/01/2027-01-19-example.json`, replacing the example date and short name. GitHub creates the year/month folders from the full filename you enter.
 3. Paste the template and replace all fictional values. Set a unique `id` such as `event-your-short-name`. The identifier is independent of the filename; use lowercase words, numbers and hyphens, and never change an existing id.
-4. Supply a title, a date in `YYYY-MM-DD` format and status `scheduled`. These, plus the stable identifier, are sufficient for a basic event.
+4. Supply a title, a date in `YYYY-MM-DD` format, exactly one `category` from the table below and status `scheduled`. These, plus the stable identifier, are sufficient for a basic event.
 5. Choose **Commit changes**, describe the proposed change and commit to your feature branch. This does not publish to the squadron website.
 
-Required event fields: `id`, `title`, `date`, `status`.
+Required event fields: `id`, `title`, `date`, `category`, `status`.
 Optional event fields: `description`, `updatedDate`.
 Allowed statuses: `scheduled`, `updated`, `cancelled`.
 
 Use one file for each event. Multiple events can share a date. Dates use Newfoundland local calendar dates, America/St_Johns, and support years 2000–2099. All events remain current through their date; prior dates can still be viewed by navigating the calendar. The homepage shows at most three upcoming events, ordered by date then identifier. Keep descriptions to approved public information; private arrangements belong in direct squadron communications.
+
+### Choose one primary event category
+
+The application supplies each category's label, colour and symbol automatically. Do not add colours, icons or multiple categories to JSON. Categories describe the activity; the separate title describes the particular event. These identifiers apply to events only; announcement categories remain unchanged.
+
+| Identifier | Display label | Symbol |
+| --- | --- | --- |
+| `training` | Training | Book |
+| `marksmanship` | Marksmanship | Target |
+| `band` | Band | Music |
+| `choir` | Choir | Microphone |
+| `ground-school` | Ground School | Aircraft |
+| `ceremony` | Ceremony | Award |
+| `parade` | Parade | Flag |
+| `field-training-exercise` | Field Training Exercise | Trees |
+| `special-event` | Special Event | Star |
+| `biathlon` | Biathlon | Medal |
+
+Copyable fictional example, not a confirmed squadron event:
+
+```json
+{
+  "id": "event-fictional-training",
+  "title": "Fictional training example",
+  "date": "2027-01-19",
+  "category": "training",
+  "status": "scheduled"
+}
+```
+
+Place that example in `content/events/2027/01/2027-01-19-fictional-training.json` only after replacing it with approved content. All real event records require a category; ask the authorized reviewer if unsure rather than selecting an arbitrary default. Keep locations, start/end times and durations out of public event records and descriptions.
+
+Calendar cells use the order in the table, then stable id within a category. On smaller screens only two entries are shown and `+N more` counts additional EVENTS, including repeated categories. Narrow screens use text abbreviations explained in the Event category key. Every event remains available by selecting the date. Cancelled/updated events keep their category and display separate status labels.
 
 ### Update or cancel
 
@@ -83,7 +116,7 @@ For a reschedule, change the existing file’s path and date together, set `stat
 
 ## Calendar use and static-site behaviour
 
-Select a month/year or use Previous/Next; Today returns to the current Newfoundland date. Date buttons show event counts. Select a date to read all its events and statuses. Arrow keys move between dates, Home/End move within a week, Page Up/Down move by month (with Shift, by year), and Enter/Space selects a date.
+Read the announcements at the top of `/calendar` first. Select a month/year or use Previous/Next; Today returns to the current Newfoundland date. Date buttons show category labels, with an additional-event count when space is limited. Select a date to read all its events and statuses. Arrow keys move between dates, Home/End move within a week, Page Up/Down move by month (with Shift, by year), and Enter/Space selects a date.
 
 Useful HTML is generated at each build. With JavaScript, the current date and active/expired classifications refresh on load and when returning to the tab. There is no background timer: continuously open pages can remain stale until revisited/reloaded. An incorrect device clock can affect classification. Without JavaScript the built month, selected-date list, full public event list and build-date notice remain available; interactive navigation requires JavaScript. Future and expired records remain public.
 

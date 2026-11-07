@@ -27,6 +27,12 @@ text planned entry in `src/pages/cadets/uniforms/index.tsx` with the link.
 For a parent guide, add it to the resource list in `src/pages/parents/index.tsx`.
 Include a link from each guide back to its parent section.
 
+Use `CadetResourceLayout` from `src/components/CadetResourceLayout` around the
+body of new Cadets pages. In MDX, import the component and wrap the guide body
+in its tags below the H1. In TSX, nest it inside `ContentPage` as on the Cadets
+and Uniforms landing pages. Add the published guide to the relevant part of
+the shared navigation when it is ready for public review.
+
 ## Add illustrations and references
 
 Place approved public illustrations under

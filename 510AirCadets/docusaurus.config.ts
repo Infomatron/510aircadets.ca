@@ -74,7 +74,6 @@ const config: Config = {
         {
           title: "Stay connected",
           items: [
-            { label: "Facebook", href: "https://www.facebook.com/510Lions/" },
             { label: "Instagram", href: "https://www.instagram.com/510lions/" },
             {
               label: "Squadron Linktree",

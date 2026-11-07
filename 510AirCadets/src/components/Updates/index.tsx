@@ -534,7 +534,13 @@ export function HomeUpdates() {
     </section>
   );
 }
-export function CompatibilityRoute({ target }: { target: string }) {
+export function CompatibilityRoute({
+  target,
+  label = "Calendar & Announcements",
+}: {
+  target: string;
+  label?: string;
+}) {
   useEffect(() => {
     window.location.replace(
       target + window.location.search + window.location.hash,
@@ -548,7 +554,7 @@ export function CompatibilityRoute({ target }: { target: string }) {
       </Head>
       <p>
         This page has moved.{" "}
-        <Link to={target}>Continue to Calendar & Announcements</Link>.
+        <Link to={target}>Continue to {label}</Link>.
       </p>
     </>
   );

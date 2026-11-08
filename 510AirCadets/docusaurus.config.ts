@@ -48,7 +48,8 @@ const config: Config = {
           label: "Calendar & Announcements",
           position: "left",
         },
-        { to: "/parents-cadets", label: "Parents & Cadets", position: "left" },
+        { to: "/cadets/", label: "Cadets", position: "left" },
+        { to: "/parents/", label: "Parents", position: "left" },
         { to: "/contact", label: "Contact", position: "left" },
         {
           href: "https://registration.cadets.gc.ca/get-started.html?unitId=441",
@@ -65,14 +66,14 @@ const config: Config = {
           title: "510 St. John's Lions",
           items: [
             { label: "About this website", to: "/about" },
-            { label: "Parents & Cadets", to: "/parents-cadets" },
+            { label: "Cadets", to: "/cadets/" },
+            { label: "Parents", to: "/parents/" },
             { label: "Contact", to: "/contact" },
           ],
         },
         {
           title: "Stay connected",
           items: [
-            { label: "Facebook", href: "https://www.facebook.com/510Lions/" },
             { label: "Instagram", href: "https://www.instagram.com/510lions/" },
             {
               label: "Squadron Linktree",

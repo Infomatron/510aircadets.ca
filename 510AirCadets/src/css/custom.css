@@ -718,3 +718,47 @@ select:focus-visible {
     background-image: none;
   }
 }
+
+.cadet-resource-layout {
+  display: grid;
+  gap: 2rem;
+}
+.cadet-resource-nav {
+  align-self: start;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--squadron-surface);
+}
+.cadet-resource-nav p {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+.cadet-resource-nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cadet-resource-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.25rem 0.75rem;
+  border-left: 4px solid transparent;
+}
+.cadet-resource-nav a[aria-current="page"] {
+  border-left-color: var(--squadron-yellow);
+  background: white;
+  font-weight: 700;
+}
+.cadet-resource-content {
+  min-width: 0;
+  max-width: 48rem;
+}
+.cadet-resource-content > h2:first-child {
+  margin-top: 0;
+}
+@media (min-width: 768px) {
+  .cadet-resource-layout {
+    grid-template-columns: 13rem minmax(0, 1fr);
+  }
+}

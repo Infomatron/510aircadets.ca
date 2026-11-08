@@ -43,7 +43,7 @@ All eight screenshots inspected. No redesign or CSS changes were needed.
 - Skip navigation is first keyboard focus; subsequent progression reaches the primary hero action. Visible 3 px focus outline retained.
 - Homepage reflow at 320 px: passed. No JavaScript errors observed.
 - Browser assertions verify exact registration URL, decoded Maps address, no Maps target override, all confirmed times/address on homepage and Contact, at-capacity wording, and removal of old provisional phrases. Source contains no 21:00 parade hours.
-- External HTTP checks: Google Maps, Linktree, Instagram and four Canada.ca references returned 200. Facebook redirects to login (200), so logged-out page content was not validated. Registration returned 503; exact approved URL is retained. This does not establish whether the service is unavailable to ordinary visitors. Check the form in a normal browser before release; no registration was submitted.
+- External HTTP checks: Google Maps, Linktree, Instagram and four Canada.ca references returned 200. Registration returned 503; exact approved URL is retained. This does not establish whether the service is unavailable to ordinary visitors. Check the form in a normal browser before release; no registration was submitted.
 - No configured lint/test scripts. No new testing framework added. See `browser-checks.txt` and `external-links.json` for observations.
 - Limits: Chromium-only checks, not a full WCAG audit. Screen-reader, real-device, Safari/Firefox and comprehensive zoom/keyboard testing remain release-review gaps. No new accessibility regression observed in the checks performed.
 

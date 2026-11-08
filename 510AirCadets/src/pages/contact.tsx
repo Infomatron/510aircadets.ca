@@ -15,16 +15,13 @@ export default function Page() {
       <h2>Get in touch</h2>
       <p>
         The squadron's Linktree provides its published contact and registration
-        links. You can also find its public social accounts below.
+        links.
       </p>
       <ul>
         <li>
           <a href="https://linktr.ee/510stjohnslionsaircadets">
             Squadron Linktree and contact links
           </a>
-        </li>
-        <li>
-          <a href="https://www.facebook.com/510Lions/">510 Lions on Facebook</a>
         </li>
         <li>
           <a href="https://www.instagram.com/510lions/">

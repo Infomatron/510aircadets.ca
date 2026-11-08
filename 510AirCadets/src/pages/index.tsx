@@ -120,15 +120,20 @@ export default function Home() {
             </Action>
           </div>
           <div className="resource-panel">
-            <p className="eyebrow">Already a cadet?</p>
-            <Heading as="h2">Your next useful link</Heading>
+            <p className="eyebrow">Squadron resources</p>
+            <Heading as="h2">Cadets and parents</Heading>
             <p>
               Find official program information and a starting point for cadets,
               parents and guardians.
             </p>
-            <Action to="/parents-cadets" secondary>
-              Parents & Cadets resources
-            </Action>
+            <div className="actions">
+              <Action to="/cadets/" secondary>
+                Cadet resources
+              </Action>
+              <Action to="/parents/" secondary>
+                Parent resources
+              </Action>
+            </div>
           </div>
         </section>
       </main>

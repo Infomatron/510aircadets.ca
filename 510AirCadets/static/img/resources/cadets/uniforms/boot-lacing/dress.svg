@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 250" width="360" height="250" role="img">
+  <title>Horizontal bars</title>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#8c4600"/></marker></defs>
+  <rect width="360" height="250" rx="12" fill="#f1f5f8"/>
+  <g font-family="system-ui,sans-serif" fill="#17364e">
+
+    <text x="24" y="34" font-size="21" font-weight="700">Horizontal bars</text>
+    <path d="M84 58h192l15 130q-111 38-222 0z" fill="white" stroke="#214867" stroke-width="2"/>
+    <path d="M105 178V110 M105 144V76 M255 178V144 M255 110V76" fill="none" stroke="#476074" stroke-width="3" stroke-dasharray="5 5"/>
+    <path d="M105 178h150 M105 144h150 M105 110h150 M105 76h150" fill="none" stroke="#8c4600" stroke-width="4"/>
+    <g fill="#214867"><circle cx="105" cy="178" r="5"/><circle cx="105" cy="144" r="5"/><circle cx="105" cy="110" r="5"/><circle cx="105" cy="76" r="5"/><circle cx="255" cy="178" r="5"/><circle cx="255" cy="144" r="5"/><circle cx="255" cy="110" r="5"/><circle cx="255" cy="76" r="5"/></g>
+    <text x="24" y="229" font-size="16">Start at the lowest pair</text>
+
+  </g>
+</svg>

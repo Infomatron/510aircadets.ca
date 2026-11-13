@@ -8,7 +8,8 @@ export type EventCategory =
   | "parade"
   | "field-training-exercise"
   | "special-event"
-  | "biathlon";
+  | "biathlon"
+  | "parents-support-group";
 export interface Category {
   id: EventCategory;
   label: string;

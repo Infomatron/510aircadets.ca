@@ -110,6 +110,18 @@ export const EVENT_CATEGORIES = [
       "m12 12 1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2Z",
     ],
   },
+  {
+    id: "parents-support-group",
+    label: "Parents Support Group",
+    short: "PSG",
+    symbol: "People",
+    color: "#493B72",
+    background: "#F0EAF8",
+    paths: [
+      "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v2",
+      "M3 12a3 3 0 0 0 0-6m18 6a3 3 0 0 1 0-6",
+    ],
+  },
 ];
 export const CATEGORY_BY_ID = Object.fromEntries(
   EVENT_CATEGORIES.map((c) => [c.id, c]),

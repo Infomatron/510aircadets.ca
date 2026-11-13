@@ -1,3 +1,4 @@
+import ResourceLayout from "../ResourceLayout";
 import type { ReactNode } from "react";
 import Link from "@docusaurus/Link";
 
@@ -14,9 +15,9 @@ export default function CadetResourceLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="cadet-resource-layout">
-      <nav className="cadet-resource-nav" aria-label="Cadet resources">
-        <p>In this section</p>
+    <ResourceLayout
+      label="Cadet resources"
+      navigation={
         <ul>
           <li>
             <Link to="/cadets/" isNavLink exact>
@@ -38,8 +39,9 @@ export default function CadetResourceLayout({
             </ul>
           </li>
         </ul>
-      </nav>
-      <div className="cadet-resource-content">{children}</div>
-    </div>
+      }
+    >
+      {children}
+    </ResourceLayout>
   );
 }

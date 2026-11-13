@@ -44,6 +44,7 @@ The application supplies each category's label, colour and symbol automatically.
 | `field-training-exercise` | Field Training Exercise | Trees |
 | `special-event` | Special Event | Star |
 | `biathlon` | Biathlon | Medal |
+| `parents-support-group` | Parents Support Group | People |
 
 Copyable fictional example, not a confirmed squadron event:
 

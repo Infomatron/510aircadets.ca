@@ -9,6 +9,7 @@ export interface Event {
   updatedDate?: string;
 }
 export interface Announcement {
+  articleUrl?: string;
   id: string;
   title: string;
   publicationDate: string;
@@ -18,7 +19,18 @@ export interface Announcement {
   category?: string;
   updatedDate?: string;
 }
+export interface PsgArticle {
+  title: string;
+  date: string;
+  summary: string;
+  slug: string;
+  url: string;
+  topic?: string;
+  updatedDate?: string;
+  supersedes?: string;
+}
 export interface Content {
+  psg: { updates: PsgArticle[]; meetings: PsgArticle[] };
   builtAt: number;
   events: Event[];
   announcements: Announcement[];

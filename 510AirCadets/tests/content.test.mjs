@@ -513,10 +513,16 @@ function contrast(a, b) {
     y = luminance(b);
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
 }
-test("all ten categories have unique colours and readable labels/decorative symbols", () => {
-  assert.equal(EVENT_CATEGORIES.length, 10);
-  assert.equal(new Set(EVENT_CATEGORIES.map((c) => c.id)).size, 10);
-  assert.equal(new Set(EVENT_CATEGORIES.map((c) => c.color)).size, 10);
+test("all categories have unique colours and readable labels/decorative symbols", () => {
+  assert.equal(EVENT_CATEGORIES.length, 11);
+  assert.equal(
+    new Set(EVENT_CATEGORIES.map((c) => c.id)).size,
+    EVENT_CATEGORIES.length,
+  );
+  assert.equal(
+    new Set(EVENT_CATEGORIES.map((c) => c.color)).size,
+    EVENT_CATEGORIES.length,
+  );
   for (const c of EVENT_CATEGORIES) {
     assert.ok(c.label && c.short && c.symbol && c.paths.length);
     assert.ok(contrast(c.color, c.background) >= 4.5, `${c.id} text contrast`);

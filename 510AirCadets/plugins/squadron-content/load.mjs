@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { validateRecords } from "./model.mjs";
+import { loadPsg, promotedAnnouncements } from "./psg.mjs";
 export async function loadContent(root, now = Date.now()) {
   const records = [],
     errors = [];
@@ -60,11 +61,14 @@ export async function loadContent(root, now = Date.now()) {
   errors.push(...validateRecords(records));
   if (errors.length)
     throw new Error(`Content validation failed:\n${errors.join("\n")}`);
+  const psg = await loadPsg(root, now);
   return {
+    psg,
     builtAt: now,
     events: records.filter((r) => r.kind === "events").map((r) => r.data),
-    announcements: records
-      .filter((r) => r.kind === "announcements")
-      .map((r) => r.data),
+    announcements: [
+      ...records.filter((r) => r.kind === "announcements").map((r) => r.data),
+      ...promotedAnnouncements(psg.updates),
+    ],
   };
 }

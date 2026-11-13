@@ -147,7 +147,9 @@ export function AnnouncementList({
             >
               <p className="update-label">
                 {archived ? "Archived · " : ""}
-                {categories[a.category || "general"]}
+                {a.articleUrl
+                  ? "Parents Support Group"
+                  : categories[a.category || "general"]}
               </p>
               <Heading as={preview ? "h4" : "h3"}>{a.title}</Heading>
               <p className="update-meta">
@@ -166,6 +168,11 @@ export function AnnouncementList({
                 )}
               </p>
               <p className="update-message">{a.message}</p>
+              {a.articleUrl && (
+                <p>
+                  <Link to={a.articleUrl}>Read the full update: {a.title}</Link>
+                </p>
+              )}
               {event && (
                 <p>
                   <Link to={`/calendar?date=${event.date}#selected-events`}>
@@ -553,8 +560,7 @@ export function CompatibilityRoute({
         <link rel="canonical" href={`https://510aircadets.ca${target}`} />
       </Head>
       <p>
-        This page has moved.{" "}
-        <Link to={target}>Continue to {label}</Link>.
+        This page has moved. <Link to={target}>Continue to {label}</Link>.
       </p>
     </>
   );

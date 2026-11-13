@@ -2,9 +2,10 @@ module.exports = function (context) {
   return {
     name: "squadron-content",
     getPathsToWatch() {
-      return ["events", "announcements"].map(
-        (kind) => `${context.siteDir}/content/${kind}/**/*`,
-      );
+      return [
+        `${context.siteDir}/content/{events,announcements}/**/*`,
+        `${context.siteDir}/src/pages/parents/support-group/**/*.mdx`,
+      ];
     },
     async loadContent() {
       const { loadContent } = await import("./load.mjs");

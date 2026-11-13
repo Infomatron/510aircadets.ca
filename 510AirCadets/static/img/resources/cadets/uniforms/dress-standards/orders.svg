@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 250" width="440" height="250" role="img">
+  <title>Air Cadet C1 and C5 comparison</title>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#8c4600"/></marker></defs>
+  <rect width="440" height="250" rx="12" fill="#f1f5f8"/>
+  <g font-family="system-ui,sans-serif" fill="#17364e">
+
+    <rect x="16" y="18" width="196" height="212" rx="8" fill="white"/>
+    <rect x="228" y="18" width="196" height="212" rx="8" fill="white"/>
+    <g font-size="20" font-weight="700"><text x="30" y="50">C1 ceremonial</text><text x="242" y="50">C5 field training</text></g>
+    <g font-size="16">
+      <text x="30" y="83">Dress shirt and tie</text><text x="30" y="110">Belted dress jacket</text><text x="30" y="137">Trousers and belt</text>
+      <text x="242" y="83">Field shirt and T-shirt</text><text x="242" y="110">Rank slip-ons</text><text x="242" y="137">Field pants and belt</text>
+      <text x="30" y="208">Dress boots</text><text x="242" y="208">Multi-purpose boots</text>
+    </g>
+    <g stroke="#214867" stroke-width="4" fill="none"><path d="M32 155h50m-50 10h50m-50 10h50"/><path d="M245 155l50 20m0-20-50 20"/></g>
+
+  </g>
+</svg>

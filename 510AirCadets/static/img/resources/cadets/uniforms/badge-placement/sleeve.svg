@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 250" width="440" height="250" role="img">
+  <title>Dress jacket sleeve measuring points</title>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#8c4600"/></marker></defs>
+  <rect width="440" height="250" rx="12" fill="#f1f5f8"/>
+  <g font-family="system-ui,sans-serif" fill="#17364e">
+
+    <path d="M38 38h143l-16 186H57z" fill="#d5e5ef" stroke="#214867" stroke-width="2"/>
+    <path d="M38 38h143M51 185h117M110 40v181" stroke="#214867" fill="none" stroke-dasharray="5 5"/>
+    <rect x="67" y="67" width="86" height="21" rx="3" fill="#f9bd11" stroke="#214867"/>
+    <rect x="88" y="103" width="44" height="18" rx="3" fill="#214867"/>
+    <path d="M153 67h47V38h-19m-49 74h68m-32 73h32" fill="none" stroke="#214867" stroke-width="2"/>
+    <g font-size="16"><text x="213" y="40">Upper shoulder seam</text><text x="213" y="71">2 cm to badge top</text><text x="213" y="113">Rank midpoint</text><text x="213" y="187">Elbow</text><text x="213" y="222">Schematic, not to scale</text></g>
+
+  </g>
+</svg>

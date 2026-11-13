@@ -762,3 +762,12 @@ select:focus-visible {
     grid-template-columns: 13rem minmax(0, 1fr);
   }
 }
+
+.cadet-resource-nav .cadet-resource-subnav {
+  padding-inline-start: 0.75rem;
+}
+.cadet-resource-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

@@ -1,20 +1,24 @@
-import CadetResourceLayout from "../../../components/CadetResourceLayout";
+import Link from "@docusaurus/Link";
+import CadetResourceLayout, {
+  uniformGuides,
+} from "../../../components/CadetResourceLayout";
 import { ContentPage } from "../../../components/Squadron";
 
 export default function Uniforms() {
   return (
     <ContentPage
       title="Uniforms"
-      description="Find official uniform guidance and see which squadron guides are planned."
+      description="Find official uniform guidance and draft squadron guides."
     >
       <CadetResourceLayout>
-        <h2>Planned uniform guides</h2>
-        <p>These squadron guides are planned and have not been published yet.</p>
+        <h2>Draft uniform guides</h2>
+        <p>These guides are awaiting Commanding Officer review.</p>
         <ul>
-          <li>Uniform dress standards</li>
-          <li>Badge and patch placement</li>
-          <li>How to tie a C1 tie</li>
-          <li>How to lace boots</li>
+          {uniformGuides.map(({ slug, title }) => (
+            <li key={slug}>
+              <Link to={`/cadets/uniforms/${slug}/`}>{title}</Link>
+            </li>
+          ))}
         </ul>
 
         <h2>Official uniform guidance</h2>

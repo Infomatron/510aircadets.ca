@@ -91,7 +91,7 @@ export async function loadSsc(root, now) {
       if (
         meta.updatedDate !== undefined &&
         (!validDate(meta.updatedDate) ||
-          meta.updatedDate < date ||
+          meta.updatedDate < (meta.publicationDate ?? date) ||
           meta.updatedDate > today)
       )
         fail(
@@ -120,7 +120,6 @@ export async function loadSsc(root, now) {
 
       lists[kind].push({
         ...meta,
-        title: meta.title ?? `Meeting summary for ${date}`,
         date,
         slug,
         url: `${routeRoot}/${kind}/${slug}/`,

@@ -12,7 +12,10 @@ const config: Config = {
   onBrokenLinks: "throw",
   onBrokenAnchors: "throw",
   i18n: { defaultLocale: "en", locales: ["en"] },
-  plugins: ["./plugins/squadron-content/index.cjs"],
+  plugins: [
+    "./plugins/squadron-content/index.cjs",
+    "./plugins/page-modified/index.cjs",
+  ],
   presets: [
     [
       "classic",
@@ -49,7 +52,11 @@ const config: Config = {
           position: "left",
         },
         { to: "/cadets/", label: "Cadets", position: "left" },
-        { to: "/parents/", label: "Parents", position: "left" },
+        {
+          to: "/parents-guardians/",
+          label: "Parents & Guardians",
+          position: "left",
+        },
         { to: "/contact", label: "Contact", position: "left" },
         {
           href: "https://registration.cadets.gc.ca/get-started.html?unitId=441",
@@ -67,8 +74,12 @@ const config: Config = {
           items: [
             { label: "About this website", to: "/about" },
             { label: "Cadets", to: "/cadets/" },
-            { label: "Parents", to: "/parents/" },
+            { label: "Parents & Guardians", to: "/parents-guardians/" },
             { label: "Contact", to: "/contact" },
+            {
+              label: "View website source on GitHub",
+              href: "https://github.com/Infomatron/510aircadets.ca",
+            },
           ],
         },
         {
@@ -96,7 +107,7 @@ const config: Config = {
         },
       ],
       copyright:
-        "Independently maintained by a parent volunteer. Not an official DND, CAF or Government of Canada website.",
+        "Independently maintained by volunteers of the Squadron Support Committee. This is not an official Department of National Defence or Canadian Armed Forces website.",
     },
   } satisfies Preset.ThemeConfig,
 };

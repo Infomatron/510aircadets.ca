@@ -1,6 +1,6 @@
 # 510 St. John's Lions Air Cadets website
 
-Independent public information website maintained by a parent volunteer. Built with Docusaurus Classic, React and TypeScript.
+Independent public information website maintained by volunteers of the Squadron Support Committee. Built with Docusaurus Classic, React and TypeScript.
 
 ## Local development
 

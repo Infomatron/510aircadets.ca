@@ -38,7 +38,9 @@ export default function Cadets() {
           </li>
         </ul>
         <p>
-          <Link to="/parents/">Resources for parents and guardians</Link>
+          <Link to="/parents-guardians/">
+            Resources for parents and guardians
+          </Link>
         </p>
       </CadetResourceLayout>
     </ContentPage>

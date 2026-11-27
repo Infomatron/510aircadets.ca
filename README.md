@@ -31,4 +31,6 @@ See [milestone 3 handoff](review/milestone-3/handoff.md) for exact protection, m
 
 ## Calendar & Announcements
 
-See [the cadet contribution guide](510AirCadets/CONTRIBUTING.md) for fork-based GitHub editing, templates and public-release rules. See [resource guide authoring](510AirCadets/RESOURCE-GUIDES.md) to add Cadets or Parents pages.
+See [the cadet contribution guide](510AirCadets/CONTRIBUTING.md) for fork-based GitHub editing, templates and public-release rules. See [resource guide authoring](510AirCadets/RESOURCE-GUIDES.md) to add Cadets or Parents & Guardians pages.
+
+See [SSC publishing](510AirCadets/SQUADRON-SUPPORT-COMMITTEE-CONTENT.md) and [page modification dates](510AirCadets/PAGE-MODIFICATION-DATES.md) for content maintenance.

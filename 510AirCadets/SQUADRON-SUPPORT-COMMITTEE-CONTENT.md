@@ -1,4 +1,4 @@
-# Publish Parents Support Group content
+# Publish Squadron Support Committee content
 
 Prepare approved public summaries in Markdown. The website maintainer and
 squadron representatives should confirm who can approve public content.
@@ -16,7 +16,7 @@ authorization. Review the [public release rules](CONTRIBUTING.md).
 
 ## Write an update
 
-In `510AirCadets/src/pages/parents/support-group/updates/` create one `.mdx`
+In `510AirCadets/src/pages/parents-guardians/support-committee/updates/` create one `.mdx`
 file. Choose a lowercase, hyphenated filename. The filename determines its
 permanent URL, so keep it when editing the article. The listing is automatic.
 
@@ -25,7 +25,7 @@ Use a quoted Newfoundland calendar date that has already arrived.
 
 ```mdx
 ---
-title: "Example PSG update"
+title: "Example SSC update"
 date: "2026-11-13"
 summary: "Replace this with a short approved public summary."
 status: approved
@@ -33,15 +33,15 @@ topic: "Volunteering"
 promoteToAnnouncements: false
 ---
 
-import { PsgArticleLayout } from '@site/src/components/ParentsSupportGroup';
+import { SscArticleLayout } from '@site/src/components/SupportCommittee';
 
-<PsgArticleLayout>
+<SscArticleLayout>
 
 ## Update
 
 Replace this example with the approved public article.
 
-</PsgArticleLayout>
+</SscArticleLayout>
 ```
 
 The layout supplies the title, date and summary. Use Markdown for the body
@@ -53,25 +53,26 @@ distribution. The calendar announcement list then uses its title, summary,
 date and article link automatically. It also participates in the existing
 homepage announcement preview. An optional quoted `expiryDate` keeps the
 notice active through that Newfoundland date and then moves it to the
-announcement archive. The full article stays in the PSG listing.
+announcement archive. The full article stays in the SSC listing.
 
 ## Record a meeting and its decisions
 
 Create one `.mdx` file under
-`510AirCadets/src/pages/parents/support-group/meetings/`. The listing groups
-summaries by year and orders newest first. The title is optional.
+`510AirCadets/src/pages/parents-guardians/support-committee/meetings/`. The listing groups
+summaries by year and orders newest first. Include a title and a publication date on or after the meeting date.
 
 ```mdx
 ---
-title: "Example PSG meeting summary"
+title: "Example SSC meeting summary"
 meetingDate: "2026-11-13"
+publicationDate: "2026-11-14"
 summary: "Replace this with the approved public meeting summary."
 status: approved
 ---
 
-import { PsgArticleLayout } from '@site/src/components/ParentsSupportGroup';
+import { SscArticleLayout } from '@site/src/components/SupportCommittee';
 
-<PsgArticleLayout>
+<SscArticleLayout>
 
 ## Topics discussed
 
@@ -92,7 +93,7 @@ Summarize only approved public information.
 
 Add approved public information or links to earlier public summaries.
 
-</PsgArticleLayout>
+</SscArticleLayout>
 ```
 
 The front matter status applies to approval of the public summary. Use
@@ -111,7 +112,7 @@ link directly to the earlier summary in the body and describe the change.
 ## Add an event and submit for review
 
 Use the existing [calendar event process](CONTRIBUTING.md#2-add-an-event).
-Set `category` to `parents-support-group`. Use an approved public date,
+Set `category` to `squadron-support-committee`. Use an approved public date,
 title and optional public description. Keep times, durations and private
 locations out of the public record. The event appears in the shared calendar.
 
@@ -122,3 +123,15 @@ to see errors. If you have the site running locally, run `pnpm start` from
 `pnpm validate:content`, `pnpm test`, `pnpm typecheck` and `pnpm build`.
 Review the article and any promoted summary before merging through the
 existing process.
+
+
+## Contact links and page modification dates
+
+Change the shared Google Form URL in `src/contactLinks.ts`. Both SSC and website
+links initially use the same URL. Replace a recipient-specific value only when
+a verified prefilled link has been supplied. This site does not require form
+credentials.
+
+The page layout adds Date Modified automatically from committed source history.
+Keep meeting dates and publication dates as editorial facts. Follow
+[modification date guidance](PAGE-MODIFICATION-DATES.md) when adding a new page.

@@ -56,7 +56,7 @@ export function ParadeInformation() {
         from 18:30 to 21:30 at 196 Pennywell Road, St. John's, NL A1C 2L6.
       </p>
       <p>
-        <strong>Parent Pickup:</strong> Parents and guardians should arrive by
+        <strong>Cadet pickup:</strong> Parents and guardians should arrive by
         21:15 for pickup.
       </p>
       <p>

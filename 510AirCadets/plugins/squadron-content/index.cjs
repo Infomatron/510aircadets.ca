@@ -4,7 +4,7 @@ module.exports = function (context) {
     getPathsToWatch() {
       return [
         `${context.siteDir}/content/{events,announcements}/**/*`,
-        `${context.siteDir}/src/pages/parents/support-group/**/*.mdx`,
+        `${context.siteDir}/src/pages/parents-guardians/support-committee/**/*.mdx`,
       ];
     },
     async loadContent() {

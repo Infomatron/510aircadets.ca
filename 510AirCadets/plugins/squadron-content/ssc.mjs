@@ -4,15 +4,15 @@ import { DEFAULT_PARSE_FRONT_MATTER } from "@docusaurus/utils";
 import { localParts, validDate } from "./model.mjs";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-export const psgRoot = "src/pages/parents/support-group";
-const routeRoot = "/parents/support-group";
+export const sscRoot = "src/pages/parents-guardians/support-committee";
+const routeRoot = "/parents-guardians/support-committee";
 
-export async function loadPsg(root, now) {
+export async function loadSsc(root, now) {
   const lists = { updates: [], meetings: [] };
   const today = localParts(now).date;
 
   for (const kind of Object.keys(lists)) {
-    const dir = path.join(root, psgRoot, kind);
+    const dir = path.join(root, sscRoot, kind);
     let entries;
     try {
       entries = await readdir(dir, { withFileTypes: true });
@@ -24,7 +24,7 @@ export async function loadPsg(root, now) {
     for (const entry of entries) {
       const { name } = entry;
       if (name === "index.tsx") continue;
-      const file = path.join(psgRoot, kind, name);
+      const file = path.join(sscRoot, kind, name);
       const fail = (message) => {
         throw new Error(`${file}: ${message}`);
       };
@@ -51,6 +51,7 @@ export async function loadPsg(root, now) {
         "updatedDate",
         "supersedes",
       ];
+      if (kind === "meetings") allowed.push("publicationDate");
       if (kind === "updates")
         allowed.push("promoteToAnnouncements", "expiryDate");
       for (const key of Object.keys(meta)) {
@@ -61,11 +62,7 @@ export async function loadPsg(root, now) {
         ["summary", 500],
         ["topic", 80],
       ]) {
-        if (
-          meta[key] === undefined &&
-          (key === "topic" || (key === "title" && kind === "meetings"))
-        )
-          continue;
+        if (meta[key] === undefined && key === "topic") continue;
         if (
           typeof meta[key] !== "string" ||
           !meta[key].trim() ||
@@ -79,13 +76,22 @@ export async function loadPsg(root, now) {
         fail(
           `${dateField} must be a quoted YYYY-MM-DD date on or before today in Newfoundland`,
         );
+      if (
+        kind === "meetings" &&
+        (!validDate(meta.publicationDate) ||
+          meta.publicationDate < date ||
+          meta.publicationDate > today)
+      )
+        fail(
+          "publicationDate must be a quoted date between the meeting date and today",
+        );
       if (meta.status !== "approved")
         fail("status must be approved for public release");
       if (!content) fail("article body is required");
       if (
         meta.updatedDate !== undefined &&
         (!validDate(meta.updatedDate) ||
-          meta.updatedDate < date ||
+          meta.updatedDate < (meta.publicationDate ?? date) ||
           meta.updatedDate > today)
       )
         fail(
@@ -114,7 +120,6 @@ export async function loadPsg(root, now) {
 
       lists[kind].push({
         ...meta,
-        title: meta.title ?? `Meeting summary for ${date}`,
         date,
         slug,
         url: `${routeRoot}/${kind}/${slug}/`,
@@ -131,7 +136,7 @@ export async function loadPsg(root, now) {
         )
       )
         throw new Error(
-          `${psgRoot}/${kind}/${article.slug}.mdx: supersedes must reference an existing earlier article in this section`,
+          `${sscRoot}/${kind}/${article.slug}.mdx: supersedes must reference an existing earlier article in this section`,
         );
     }
     lists[kind].sort(
@@ -145,7 +150,7 @@ export function promotedAnnouncements(updates) {
   return updates
     .filter((article) => article.promoteToAnnouncements)
     .map((article) => ({
-      id: `psg-update-${article.slug}`,
+      id: `ssc-update-${article.slug}`,
       title: article.title,
       message: article.summary,
       publicationDate: article.date,

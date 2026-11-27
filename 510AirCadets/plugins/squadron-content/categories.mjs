@@ -111,9 +111,9 @@ export const EVENT_CATEGORIES = [
     ],
   },
   {
-    id: "parents-support-group",
-    label: "Parents Support Group",
-    short: "PSG",
+    id: "squadron-support-committee",
+    label: "Squadron Support Committee",
+    short: "SSC",
     symbol: "People",
     color: "#493B72",
     background: "#F0EAF8",

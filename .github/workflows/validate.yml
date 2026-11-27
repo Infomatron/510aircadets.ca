@@ -24,6 +24,7 @@ jobs:
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+          fetch-depth: 0
       - name: Set up Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
@@ -44,6 +45,6 @@ jobs:
       - name: Verify domain and public routes
         run: |
           test "$(cat build/CNAME)" = "510aircadets.ca"
-          for route in index.html about/index.html join/index.html activities/index.html parents-cadets/index.html cadets/index.html cadets/uniforms/index.html parents/index.html contact/index.html events/index.html announcements/index.html announcements/archive/index.html calendar/index.html calendar/archive/index.html; do
+          for route in index.html about/index.html join/index.html activities/index.html parents-cadets/index.html cadets/index.html cadets/uniforms/index.html parents/index.html parents-guardians/index.html parents-guardians/support-committee/index.html parents-guardians/support-committee/updates/index.html parents-guardians/support-committee/meetings/index.html contact/index.html events/index.html announcements/index.html announcements/archive/index.html calendar/index.html calendar/archive/index.html; do
             test -s "build/$route"
           done

@@ -121,7 +121,7 @@ export default function Home() {
           </div>
           <div className="resource-panel">
             <p className="eyebrow">Squadron resources</p>
-            <Heading as="h2">Cadets and parents</Heading>
+            <Heading as="h2">Cadets, parents and guardians</Heading>
             <p>
               Find official program information and a starting point for cadets,
               parents and guardians.
@@ -130,8 +130,8 @@ export default function Home() {
               <Action to="/cadets/" secondary>
                 Cadet resources
               </Action>
-              <Action to="/parents/" secondary>
-                Parent resources
+              <Action to="/parents-guardians/" secondary>
+                Parent & Guardian Resources
               </Action>
             </div>
           </div>

@@ -6,7 +6,7 @@ and how to request review.
 
 ## Create the page
 
-Place a reviewed guide in `src/pages/cadets/` or `src/pages/parents/` within
+Place a reviewed guide in `src/pages/cadets/` or `src/pages/parents-guardians/` within
 `510AirCadets/`. Use lowercase, hyphenated filenames. For example,
 `src/pages/cadets/uniforms/badge-placement.mdx` maps to
 `/cadets/uniforms/badge-placement/`. Docusaurus builds pages from this folder.
@@ -24,7 +24,7 @@ the same title and introduction layout as the hubs, follow the existing
 Once the guide is ready for review, add a descriptive link in its parent
 landing page using `@docusaurus/Link`. For a uniform guide, replace its plain
 text planned entry in `src/pages/cadets/uniforms/index.tsx` with the link.
-For a parent guide, add it to the resource list in `src/pages/parents/index.tsx`.
+For a parent guide, add it to the resource list in `src/pages/parents-guardians/index.tsx`.
 Include a link from each guide back to its parent section.
 
 Use `CadetResourceLayout` from `src/components/CadetResourceLayout` around the
@@ -36,7 +36,7 @@ the shared navigation when it is ready for public review.
 ## Add illustrations and references
 
 Place approved public illustrations under
-`static/img/resources/cadets/` or `static/img/resources/parents/` and refer
+`static/img/resources/cadets/` or `static/img/resources/parents-guardians/` and refer
 to them as `/img/resources/...` in Markdown image links. Give each image
 descriptive alt text and explain any essential steps or information in the
 surrounding text. Use responsive images and keep legible labels at phone widths.
@@ -54,3 +54,10 @@ parent link, return link, headings and illustrations on a phone and desktop.
 Run `pnpm typecheck` and `pnpm build` before submitting the PR. The production
 build checks internal links and anchors. Ask a reviewer to verify the
 instructions, references and suitability for public release.
+
+## Automatic page dates
+
+The shared theme Layout adds the page modification date. Ordinary TSX, Markdown
+and MDX pages receive it automatically, with no contributor date field. Use a
+full Git checkout and commit the page before checking its published date.
+See [date sources and data dependencies](PAGE-MODIFICATION-DATES.md).

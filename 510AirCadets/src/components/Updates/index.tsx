@@ -24,7 +24,7 @@ import {
   type Announcement,
 } from "../../../plugins/squadron-content/model.mjs";
 
-function useContent() {
+export function useContent() {
   const content = usePluginData("squadron-content") as Content;
   const [now, setNow] = useState(content.builtAt);
   useEffect(() => {
@@ -148,7 +148,7 @@ export function AnnouncementList({
               <p className="update-label">
                 {archived ? "Archived · " : ""}
                 {a.articleUrl
-                  ? "Parents Support Group"
+                  ? "Squadron Support Committee"
                   : categories[a.category || "general"]}
               </p>
               <Heading as={preview ? "h4" : "h3"}>{a.title}</Heading>

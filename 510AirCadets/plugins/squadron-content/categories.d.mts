@@ -9,7 +9,7 @@ export type EventCategory =
   | "field-training-exercise"
   | "special-event"
   | "biathlon"
-  | "parents-support-group";
+  | "squadron-support-committee";
 export interface Category {
   id: EventCategory;
   label: string;

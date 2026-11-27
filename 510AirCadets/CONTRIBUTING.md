@@ -1,6 +1,6 @@
 # Maintain Calendar & Announcements
 
-You can edit public content through GitHub's website. No React, TypeScript or local software is required. The public calendar is at `/calendar`; current announcements appear beneath it. Expired announcements remain at `/calendar/archive`.
+You can edit public content through GitHub's website. No React, TypeScript or local software is required. The public calendar is at `/calendar`; current announcements appear above it. Expired announcements remain at `/calendar/archive`.
 
 ## Everything here is public
 
@@ -44,7 +44,7 @@ The application supplies each category's label, colour and symbol automatically.
 | `field-training-exercise` | Field Training Exercise | Trees |
 | `special-event` | Special Event | Star |
 | `biathlon` | Biathlon | Medal |
-| `parents-support-group` | Parents Support Group | People |
+| `squadron-support-committee` | Squadron Support Committee | People |
 
 Copyable fictional example, not a confirmed squadron event:
 
@@ -124,3 +124,10 @@ Useful HTML is generated at each build. With JavaScript, the current date and ac
 ## Maintainer commands
 
 From `510AirCadets/`: `pnpm run validate:content`, `pnpm test`, `pnpm run typecheck`, `pnpm run build`. The build also invokes shared validation. PR checks remain read-only `pull_request` checks; main deployment repeats content tests. Required check name stays **Website validation**. Do not grant upstream write access merely for cadet contributions. No repository permissions or protection settings are changed by this feature.
+
+## Maintaining page modification dates
+
+Public pages show a Git-derived Date Modified value automatically. It changes
+when relevant committed content changes. See
+[page modification date guidance](PAGE-MODIFICATION-DATES.md) for data-driven
+pages and full-history checkout requirements.

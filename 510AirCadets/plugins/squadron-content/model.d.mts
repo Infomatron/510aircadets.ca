@@ -19,7 +19,7 @@ export interface Announcement {
   category?: string;
   updatedDate?: string;
 }
-export interface PsgArticle {
+export interface SscArticle {
   title: string;
   date: string;
   summary: string;
@@ -28,9 +28,10 @@ export interface PsgArticle {
   topic?: string;
   updatedDate?: string;
   supersedes?: string;
+  publicationDate?: string;
 }
 export interface Content {
-  psg: { updates: PsgArticle[]; meetings: PsgArticle[] };
+  ssc: { updates: SscArticle[]; meetings: SscArticle[] };
   builtAt: number;
   events: Event[];
   announcements: Announcement[];

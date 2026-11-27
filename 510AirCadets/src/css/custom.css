@@ -771,3 +771,11 @@ select:focus-visible {
   max-width: 100%;
   height: auto;
 }
+
+.page-last-modified {
+  max-width: 1050px;
+  color: var(--ifm-font-color-secondary);
+  font-size: 0.875rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}

@@ -6,34 +6,34 @@ import ResourceLayout from "../ResourceLayout";
 import { dateLabel } from "../Updates";
 import type {
   Content,
-  PsgArticle,
+  SscArticle,
 } from "../../../plugins/squadron-content/model.mjs";
 
-export const supportGroupPath = "/parents/support-group/";
+export const supportCommitteePath = "/parents-guardians/support-committee/";
 
 export function ParentsResourceLayout({ children }: { children: ReactNode }) {
   return (
     <ResourceLayout
-      label="Parents resources"
+      label="Parent & Guardian Resources"
       navigation={
         <ul>
           <li>
-            <Link to="/parents/" isNavLink exact>
-              Parents
+            <Link to="/parents-guardians/" isNavLink exact>
+              Parents &amp; Guardians
             </Link>
           </li>
           <li>
-            <Link to={supportGroupPath} isNavLink exact>
-              Parents Support Group
+            <Link to={supportCommitteePath} isNavLink exact>
+              Squadron Support Committee
             </Link>
             <ul className="cadet-resource-subnav">
               <li>
-                <Link to={supportGroupPath + "updates/"} isNavLink>
+                <Link to={supportCommitteePath + "updates/"} isNavLink>
                   Updates &amp; Announcements
                 </Link>
               </li>
               <li>
-                <Link to={supportGroupPath + "meetings/"} isNavLink>
+                <Link to={supportCommitteePath + "meetings/"} isNavLink>
                   Meetings &amp; Decisions
                 </Link>
               </li>
@@ -47,15 +47,15 @@ export function ParentsResourceLayout({ children }: { children: ReactNode }) {
   );
 }
 
-export function usePsg() {
-  return (usePluginData("squadron-content") as Content).psg;
+export function useSsc() {
+  return (usePluginData("squadron-content") as Content).ssc;
 }
 
-export function PsgListing({
+export function SscListing({
   articles,
   empty,
 }: {
-  articles: PsgArticle[];
+  articles: SscArticle[];
   empty?: string;
 }) {
   if (!articles.length)
@@ -69,6 +69,15 @@ export function PsgListing({
           </h3>
           <p className="update-meta">
             <time dateTime={article.date}>{dateLabel(article.date)}</time>
+            {article.publicationDate && (
+              <>
+                {" "}
+                · Published{" "}
+                <time dateTime={article.publicationDate}>
+                  {dateLabel(article.publicationDate)}
+                </time>
+              </>
+            )}
             {article.topic && <> · {article.topic}</>}
           </p>
           <p>{article.summary}</p>
@@ -78,15 +87,15 @@ export function PsgListing({
   );
 }
 
-export function PsgArticleLayout({ children }: { children: ReactNode }) {
-  const psg = usePsg();
+export function SscArticleLayout({ children }: { children: ReactNode }) {
+  const ssc = useSsc();
   const { pathname } = useLocation();
   const route = pathname.replace(/\/?$/, "/");
-  const articles = route.startsWith(supportGroupPath + "meetings/")
-    ? psg.meetings
-    : psg.updates;
+  const articles = route.startsWith(supportCommitteePath + "meetings/")
+    ? ssc.meetings
+    : ssc.updates;
   const article = articles.find((item) => item.url === route);
-  if (!article) throw new Error(`Missing PSG metadata for ${pathname}`);
+  if (!article) throw new Error(`Missing SSC metadata for ${pathname}`);
   const previous = articles.find((item) => item.slug === article.supersedes);
   const replacements = articles.filter(
     (item) => item.supersedes === article.slug,
@@ -96,6 +105,15 @@ export function PsgArticleLayout({ children }: { children: ReactNode }) {
       <h1>{article.title}</h1>
       <p className="update-meta">
         <time dateTime={article.date}>{dateLabel(article.date)}</time>
+        {article.publicationDate && (
+          <>
+            {" "}
+            · Published{" "}
+            <time dateTime={article.publicationDate}>
+              {dateLabel(article.publicationDate)}
+            </time>
+          </>
+        )}
         {article.topic && <> · {article.topic}</>}
         {article.updatedDate && (
           <>

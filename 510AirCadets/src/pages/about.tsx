@@ -24,9 +24,9 @@ export default function Page() {
       </p>
       <h2>About this independent website</h2>
       <p>
-        This website is independently developed and maintained by a parent
-        volunteer in support of 510 St. John's Lions Royal Canadian Air Cadet
-        Squadron.
+        This website is independently developed and maintained by volunteers of
+        the Squadron Support Committee in support of 510 St. John's Lions Royal
+        Canadian Air Cadet Squadron.
       </p>
       <p>
         It is not an official website of the Canadian Armed Forces, the

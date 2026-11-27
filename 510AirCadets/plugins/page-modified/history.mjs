@@ -152,7 +152,7 @@ export async function buildManifest(siteDir, pages, ssc) {
     const source = page.source.replace(/^@site\//, "");
     const text = await readFile(path.join(siteDir, source), "utf8");
     // The site uses a shared component for static compatibility redirects.
-    if (/\bCompatibilityRoute\b/.test(text)) continue;
+    if (/<CompatibilityRoute\s/.test(text)) continue;
     const route = normalizeRoute(page.permalink);
     const sourcePath = sitePrefix + source;
     const own = latestChange(repoRoot, [sourcePath], true);

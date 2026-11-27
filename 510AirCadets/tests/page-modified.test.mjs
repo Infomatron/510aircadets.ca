@@ -179,3 +179,28 @@ test("missing or shallow Git history is an explicit validation error", async (t)
   ]);
   assert.throws(() => assertHistory(shallow), /full history/);
 });
+
+test("the build rejects a future page that bypasses the shared date layout", async (t) => {
+  const r = await repository(t);
+  await r.put("src/pages/new.tsx", "A new page");
+  r.commit("2026-11-01T16:00:00Z");
+  const { createRequire } = await import("node:module");
+  const plugin = createRequire(import.meta.url)(
+    "../plugins/page-modified/index.cjs",
+  )({ siteDir: r.root });
+  await plugin.allContentLoaded({
+    allContent: {
+      "docusaurus-plugin-content-pages": {
+        default: [{ source: "@site/src/pages/new.tsx", permalink: "/new/" }],
+      },
+      "squadron-content": { default: { ssc: empty } },
+    },
+    actions: { setGlobalData() {} },
+  });
+  const outDir = path.join(r.root, "build");
+  await r.put("build/new/index.html", "<main>A page missing its date</main>");
+  await assert.rejects(
+    plugin.postBuild({ outDir }),
+    /Missing modification date rendering/,
+  );
+});
